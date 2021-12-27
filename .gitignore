@@ -557,15 +557,9 @@ Temporary Items
 # my ignores
 .collabignore
 *idea
-/Assets/AssetPacks/StreamingAssets
-/data_output
+!Documentation~
 
-/results
-/Assets/ML-Agents
-/Assets/TextMesh Pro
 
-!**/[Pp]ackages/SocialDecisionAgent
-!**/[Pp]ackages/SocialDecisionAgent/**
 
 ## rm all files
 # git rm -r --cached .
