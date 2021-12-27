@@ -20,18 +20,17 @@ namespace SDM.Agents
         [SerializeField] float socialDriftQ = 0.66f;
         [Tooltip("Threshold of the drift diffusion model")]
         [SerializeField] public float threshold = 3.3f;
-
-        [SerializeField] bool playerControl;
         
-        public float agentDecision;
-
-        [HideInInspector] public SocialDriftDiffusionGroupController Group { get; set; }
+        public float Decision { get; set; }
+        
+        public SocialDriftDiffusionGroupController Group { get; set; }
         
         
         readonly Random _random = new Random(Environment.TickCount);
         
-        SocialDriftDiffusionModel _ddm;
+        SocialDriftDiffusionModel _sddm;
         
+        [HideInInspector] public List<float> actionsHistory = new List<float>();
         
         void Awake()
         {
@@ -40,7 +39,7 @@ namespace SDM.Agents
         
         public void ResetDecisionModel()
         {
-            _ddm = new SocialDriftDiffusionModel
+            _sddm = new SocialDriftDiffusionModel
             {
                 ChoiceThreshold = threshold,
                 NumberOfResponsesA = 0,
@@ -50,14 +49,13 @@ namespace SDM.Agents
                 Rand = _random,
                 CumulativeEvidence = 0
             };
-            agentDecision = 0;
+            Decision = 0;
         }
-        
 
-        float PlayerDecision()
+
+        void FixedUpdate()
         {
-            var newDecision = Input.GetAxis("Horizontal");
-            return newDecision;
+            actionsHistory.Add(Decision);
         }
     }
     

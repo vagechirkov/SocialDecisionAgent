@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using SDM.Agents;
+using SDM.Utils;
 using Unity.MLAgents;
 using UnityEngine;
 
@@ -9,15 +10,13 @@ namespace SDM.Group
 {
     public class SocialDriftDiffusionGroupController : MonoBehaviour
     {
-        [Tooltip("Max Environment Steps")] public int maxEnvironmentSteps = 500;
-        [SerializeField] MovingDots.MovingDots dots;
-
+        [Tooltip("Max Environment Steps")] public int maxEnvironmentSteps = 1000;
+        [SerializeField] float fovDist = 20.0f;
+        [SerializeField] float fovAngle = 45.0f;
+        
         GameObject[] _agentGroup;
         SocialDriftDiffusionAgent[] _agentGroupScrips;
-
-        float fovDist = 20.0f;
-        float fovAngle = 45.0f;
-
+        
         [HideInInspector] public int resetTimer;
 
         void Awake()
@@ -26,11 +25,11 @@ namespace SDM.Group
             _agentGroupScrips = _agentGroup.Select(a => a.GetComponent<SocialDriftDiffusionAgent>()).ToArray();
             foreach (var agent in _agentGroupScrips)
             { 
-                // agent.Group = this;
+                agent.Group = this;
             }
 
             ResetScene();
-            // GetComponent<plotAgentDecisions>().allAgents = _agentGroupScrips;
+            GetComponent<plotAgentDecisions>().allAgents = _agentGroupScrips;
         }
 
         public float[] CollectResponsesInTheFieldOfView(GameObject agent)
@@ -74,7 +73,6 @@ namespace SDM.Group
         void ResetScene()
         {
             resetTimer = 0;
-            var movingDotsObservation = dots.GenerateMovingDotsTrial();
             foreach (var agent in _agentGroupScrips)
             {
                 // agent.agentMaterial.color = Color.blue;

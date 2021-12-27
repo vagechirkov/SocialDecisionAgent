@@ -1,7 +1,7 @@
 using System;
 using Random = System.Random;
 
-namespace SDM.Agents
+namespace SDM.Utils
 {
     public class Utils
     {

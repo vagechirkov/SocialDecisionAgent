@@ -69,7 +69,7 @@ namespace SDM.Agents
             if (hideCoherenceInput)
                 sensor.AddObservation(0);
             else
-                sensor.AddObservation((float)Utils.SampleGaussian(_random, movingDotsCoherence, noiseLevelSensors));
+                sensor.AddObservation((float)Utils.Utils.SampleGaussian(_random, movingDotsCoherence, noiseLevelSensors));
             var neighbors = Group.CollectResponsesInTheFieldOfView(gameObject);
             foreach (var n in neighbors) sensor.AddObservation(n);
         }

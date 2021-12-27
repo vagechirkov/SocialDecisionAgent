@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using SDM.Agents;
+using SDM.Utils;
 using Unity.MLAgents;
 using UnityEngine;
 
@@ -31,7 +32,7 @@ namespace SDM.Group
                 _mlAgentGroup.RegisterAgent(agent);
             }
             ResetScene();
-            GetComponent<plotAgentDecisions>().allAgents = _agentGroupScrips;
+            // GetComponent<plotAgentDecisions>().allAgents = _agentGroupScrips;
         }
 
         public float[] CollectResponsesInTheFieldOfView(GameObject agent)

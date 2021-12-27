@@ -39,7 +39,7 @@ namespace SDM.Agents
             _socialDriftRate = EstimateSocialDriftRate();
             
             l = l + (PersonalDrift + _socialDriftRate) * Time.fixedDeltaTime +
-                Time.fixedDeltaTime * (float) Utils.SampleGaussian(Rand, 0, 1);
+                Time.fixedDeltaTime * (float) Utils.Utils.SampleGaussian(Rand, 0, 1);
             return l;
         }
 
@@ -53,7 +53,7 @@ namespace SDM.Agents
         // TODO: This is not the correct way to estimate personal drift rate.
         float EstimatePersonalDriftRate(float coherence)
         {
-            return 0.53f * coherence + (float) Utils.SampleGaussian(Rand, 0, 1);
+            return 0.53f * coherence + (float) Utils.Utils.SampleGaussian(Rand, 0, 1);
         }
     }
 }

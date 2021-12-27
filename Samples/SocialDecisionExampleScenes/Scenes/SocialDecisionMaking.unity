@@ -1307,8 +1307,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a7b73f46a90b445b84149e1cc2af6ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxEnvironmentSteps: 500
-  dots: {fileID: 0}
+  maxEnvironmentSteps: 1000
+  fovDist: 20
+  fovAngle: 45
   resetTimer: 0
 --- !u!114 &1612926177
 MonoBehaviour:
