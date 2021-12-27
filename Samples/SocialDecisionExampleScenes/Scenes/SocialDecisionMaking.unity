@@ -130,14 +130,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1612926175}
     m_Modifications:
-    - target: {fileID: 7300562731145373754, guid: 6ad45f4538de24b01b327e981ad7988e, type: 3}
-      propertyPath: noiseLevelSensors
-      value: 0.001
-      objectReference: {fileID: 0}
-    - target: {fileID: 7300562731145373754, guid: 6ad45f4538de24b01b327e981ad7988e, type: 3}
-      propertyPath: hideCoherenceInput
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7300562731145373758, guid: 6ad45f4538de24b01b327e981ad7988e, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -1512,14 +1504,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1612926175}
     m_Modifications:
-    - target: {fileID: 7300562731145373754, guid: 6ad45f4538de24b01b327e981ad7988e, type: 3}
-      propertyPath: noiseLevelSensors
-      value: 0.001
-      objectReference: {fileID: 0}
-    - target: {fileID: 7300562731145373754, guid: 6ad45f4538de24b01b327e981ad7988e, type: 3}
-      propertyPath: hideCoherenceInput
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7300562731145373758, guid: 6ad45f4538de24b01b327e981ad7988e, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1826,14 +1810,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1612926175}
     m_Modifications:
-    - target: {fileID: 7300562731145373753, guid: 6ad45f4538de24b01b327e981ad7988e, type: 3}
-      propertyPath: m_BehaviorType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7300562731145373754, guid: 6ad45f4538de24b01b327e981ad7988e, type: 3}
-      propertyPath: playerControl
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7300562731145373758, guid: 6ad45f4538de24b01b327e981ad7988e, type: 3}
       propertyPath: m_RootOrder
       value: 0

@@ -8,8 +8,7 @@ namespace SDM.Agents
     {
         // General
         public float ChoiceThreshold { get; set; }
-        public float Decision;
-        
+
         // Personal Drift
         public float PersonalDrift
         {

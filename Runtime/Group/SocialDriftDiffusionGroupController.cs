@@ -77,7 +77,7 @@ namespace SDM.Group
             {
                 // agent.agentMaterial.color = Color.blue;
                 // agent.movingDotsCoherence = movingDotsObservation;
-                // agent.ResetDDM();
+                agent.ResetDecisionModel();
             }
         }
     }

@@ -15,7 +15,7 @@ namespace SDM.Utils
         public SocialDriftDiffusionAgent[] allAgents;
 
         Material onguiMat;
-        Rect windowRect = new Rect(20, 20, 1000, 500); // Screen.height - 500
+        Rect windowRect = new Rect(20, 20, 1500, 1000); // Screen.height - 500
         readonly List<Color> colors = new List<Color>();
         bool showWindow;
         int _numberOfSteps;
@@ -65,7 +65,7 @@ namespace SDM.Utils
             {
                 GL.PushMatrix();
 
-                GL.Clear(true, false, Color.black);
+                GL.Clear(true, false, Color.gray);
                 onguiMat.SetPass(0);
 
                 // Draw a black back ground Quad 
@@ -73,7 +73,7 @@ namespace SDM.Utils
                 float quadY = 4;
                 float quadZ = 0;
                 GL.Begin(GL.QUADS);
-                GL.Color(Color.black);
+                GL.Color(Color.gray);
                 GL.Vertex3(quadX, quadY, quadZ);
                 GL.Vertex3(windowRect.width - quadX, quadY, quadZ);
                 GL.Vertex3(windowRect.width - quadX, windowRect.height - quadY, quadZ);
@@ -83,7 +83,7 @@ namespace SDM.Utils
                 var scale = 200f;
                 // Draw threshold lines
                 GL.Begin(GL.LINES);
-                GL.Color(Color.white);
+                GL.Color(Color.black);
                 GL.Vertex3(0, windowRect.height / 2 + allAgents[0].threshold * scale, 0);
                 GL.Vertex3(windowRect.width, windowRect.height / 2 + allAgents[0].threshold * scale, 0);
 

@@ -14,7 +14,7 @@ namespace SDM.Agents
             agentMaterial = GetComponent<MeshRenderer>().material;
         }
 
-        public void UpdateAgentColor(int agentDecision)
+        public void UpdateAgentColor(float agentDecision)
         {
             agentMaterial.color = agentDecision switch
             {
@@ -22,6 +22,11 @@ namespace SDM.Agents
                 1 => Color.green,
                 _ => agentMaterial.color
             };
+        }
+
+        public void ResetAction()
+        {
+            agentMaterial.color = Color.blue;
         }
     }
 }

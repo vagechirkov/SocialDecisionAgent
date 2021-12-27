@@ -339,7 +339,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7300562731145373759}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5333943821690333617}
@@ -421,10 +421,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6372718e2eb0e4e26adf91af5af68363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  neighborsInfluenceDDM: 0.01
-  thresholdDDM: 1
-  playerControl: 0
-  agentDecision: 0
+  socialDriftInfluence: 0.36
+  socialDriftQ: 0.66
+  threshold: 1
   actionsHistory: []
 --- !u!114 &3889395322668290455
 MonoBehaviour:
