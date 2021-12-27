@@ -1,0 +1,24 @@
+{
+  "name": "com.vagechirkov.socialdecisionagent",
+  "version": "1.0.0",
+  "displayName": "Social Decision Agent",
+  "description": "Unity social decision making agent toolkit.",
+  "unity": "2020.3",
+  "unityRelease": "12f1",
+  "author": {
+    "name": "Valerii Chirkov",
+    "email": "vagechirkov@gmail.com",
+    "url": "https://github.com/vagechirkov"
+  },
+  "dependencies": {
+    "com.unity.textmeshpro": "3.0.6",
+    "com.unity.ml-agents": "2.0.1"
+  },
+  "samples": [
+    {
+      "displayName": "Sample Social Decision Making Experiment",
+      "description": "Sample Scene and prefabs",
+      "path": "Samples/SocialDecisionExampleScenes"
+    }
+  ]
+}
