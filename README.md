@@ -11,7 +11,7 @@ This repository uses [GitLFS](https://git-lfs.github.com/). Make sure that you h
 
 2. In the Package Manager press the `+` button to add a package and select `Add package from git URL...`.
 
-![installation from git](docs/installation_from_git.png)
+![installation from git](Documentation~/installation_from_git.png)
 
 3. Paste the following line in the appeared text field: `https://github.com/vagechirkov/SocialDecisionAgent.git`
 
