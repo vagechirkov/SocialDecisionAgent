@@ -13,17 +13,20 @@ namespace SDM.Agents
     public class SocialDriftDiffusionAgent : MonoBehaviour
     {
         
-        [SerializeField] float socialDriftInfluence = 0.01f;
+        // Model parameters
+        [Tooltip("Scaling parameter of the social drift rate")]
+        [SerializeField] float socialDriftInfluence = 0.36f;
+        [Tooltip("Power of the majority size")]
         [SerializeField] float socialDriftQ = 0.66f;
-        [SerializeField] public float threshold = 1;
+        [Tooltip("Threshold of the drift diffusion model")]
+        [SerializeField] public float threshold = 3.3f;
 
         [SerializeField] bool playerControl;
         
         public float agentDecision;
-        [HideInInspector] public List<float> actionsHistory = new List<float>();
-        public MachineLearningGroupController Group { get; set; }
+
+        [HideInInspector] public SocialDriftDiffusionGroupController Group { get; set; }
         
-        TMP_Text _infoText;
         
         readonly Random _random = new Random(Environment.TickCount);
         
@@ -32,7 +35,6 @@ namespace SDM.Agents
         
         void Awake()
         {
-            _infoText = GetComponentInChildren<TMP_Text>();
             ResetDecisionModel();
         }
         

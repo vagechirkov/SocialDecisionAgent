@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SDM.Agents
 {
-    public class SocialDriftDiffusionAgentAction : MonoBehaviour
+    public class AgentAction : MonoBehaviour
     {
         Material agentMaterial;
 
@@ -13,7 +13,6 @@ namespace SDM.Agents
         {
             agentMaterial = GetComponent<MeshRenderer>().material;
         }
-
 
         public void UpdateAgentColor(int agentDecision)
         {
