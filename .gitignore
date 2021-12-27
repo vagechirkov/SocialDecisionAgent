@@ -558,6 +558,7 @@ Temporary Items
 .collabignore
 *idea
 !Documentation~
+!*.meta
 
 
 
