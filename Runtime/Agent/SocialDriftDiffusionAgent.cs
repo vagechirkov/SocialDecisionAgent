@@ -28,7 +28,8 @@ namespace SDM.Agents
 
         readonly Random _random = new Random((int)DateTime.Now.Ticks);
 
-        SocialDriftDiffusionModel _sddm;
+        public SocialDriftDiffusionModel sddm;
+        
         AgentAction _action;
         
         [HideInInspector] public List<float> actionsHistory = new List<float>();
@@ -36,12 +37,12 @@ namespace SDM.Agents
         void Awake()
         {
             _action = GetComponent<AgentAction>();
-            ResetDecisionModel();
+            ResetDecisionModel(0);
         }
         
-        public void ResetDecisionModel()
+        public void ResetDecisionModel(float coherence)
         {
-            _sddm = new SocialDriftDiffusionModel
+            sddm = new SocialDriftDiffusionModel
             {
                 ChoiceThreshold = threshold,
                 NumberOfResponsesA = 0,
@@ -52,6 +53,7 @@ namespace SDM.Agents
                 CumulativeEvidence = 0
             };
             Decision = 0;
+            sddm.Coherence = coherence;
             _action.ResetAction();
         }
 
@@ -59,15 +61,18 @@ namespace SDM.Agents
         void FixedUpdate()
         {
             var neighbors = Group.CollectResponsesInTheFieldOfView(gameObject);
-            _sddm.NumberOfResponsesA = neighbors.Count(n => Math.Abs(n + 1) < 0.01);
-            _sddm.NumberOfResponsesB = neighbors.Count(n => Math.Abs(n - 1) < 0.01);
-            _sddm.CumulativeEvidence = _sddm.CumulativeEvidence;
-
-            Decision = Math.Abs(_sddm.CumulativeEvidence) > threshold ? Math.Sign(_sddm.CumulativeEvidence) : 0;
-
-            _action.UpdateAgentColor(Decision);
+            sddm.NumberOfResponsesA = neighbors.Count(n => Math.Abs(n - 1) < 0.01);
+            sddm.NumberOfResponsesB = neighbors.Count(n => Math.Abs(n + 1) < 0.01);
+            sddm.EstimateCumulativeEvidence();
             
-            actionsHistory.Add(_sddm.CumulativeEvidence);
+            actionsHistory.Add(sddm.CumulativeEvidence);
+            if (Decision == 0)
+            {
+                Decision = Math.Abs(sddm.CumulativeEvidence) >= threshold ? Math.Sign(sddm.CumulativeEvidence) : 0;
+                sddm.Decision = Decision;
+
+                _action.UpdateAgentColor(Decision);
+            }
         }
     }
     

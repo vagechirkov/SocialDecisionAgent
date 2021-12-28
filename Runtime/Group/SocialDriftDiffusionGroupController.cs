@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using SDM.Agents;
 using SDM.Utils;
-using Unity.MLAgents;
 using UnityEngine;
 
 namespace SDM.Group
@@ -14,9 +13,11 @@ namespace SDM.Group
         [SerializeField] float fovDist = 20.0f;
         [SerializeField] float fovAngle = 45.0f;
         
+        const float MovingDotsObservation = 0.75f;
+        
         GameObject[] _agentGroup;
         SocialDriftDiffusionAgent[] _agentGroupScrips;
-        
+
         [HideInInspector] public int resetTimer;
 
         void Awake()
@@ -41,18 +42,15 @@ namespace SDM.Group
                 var direction = agent.transform.position - a.transform.position;
                 var angle = Vector3.Angle(direction, agent.transform.forward);
 
-                // RaycastHit hit;
-                // !Physics.Raycast(agent.transform.position, direction,
-                //    out hit) || !hit.collider.gameObject.CompareTag("agent") ||
+                // TODO: additionally use Raycast to check if the agent is in the field of view
                 if (direction.magnitude < fovDist && angle < fovAngle && a != gameObject)
                 {
-                    //neighborDecisions.Add(_agentGroupScrips[i].agentDecision);
+                    neighborDecisions.Add(_agentGroupScrips[i].Decision);
                     Debug.DrawRay(a.transform.position, direction, Color.red);
                 }
                 else
                 {
                     neighborDecisions.Add(0f);
-                    // Debug.DrawRay(a.transform.position, direction, Color.white);
                 }
             }
 
@@ -62,7 +60,7 @@ namespace SDM.Group
         void FixedUpdate()
         {
             resetTimer += 1;
-            // var agentDecisions = _agentGroupScrips.Select(a => a.agentDecision).ToArray();
+            // var agentDecisions = _agentGroupScrips.Select(a => a.sddm.CumulativeEvidence).ToArray();
             // Debug.Log(string.Join(" ", agentDecisions));
             if (resetTimer >= maxEnvironmentSteps && maxEnvironmentSteps > 0)
             {
@@ -75,9 +73,9 @@ namespace SDM.Group
             resetTimer = 0;
             foreach (var agent in _agentGroupScrips)
             {
-                // agent.agentMaterial.color = Color.blue;
                 // agent.movingDotsCoherence = movingDotsObservation;
-                agent.ResetDecisionModel();
+                
+                agent.ResetDecisionModel(MovingDotsObservation);
             }
         }
     }
