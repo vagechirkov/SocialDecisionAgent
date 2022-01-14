@@ -1933,6 +1933,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ColorMatching
       objectReference: {fileID: 0}
+    - target: {fileID: 7949790620876543883, guid: d898dddedcd414ef8bcc09d859ab74ba, type: 3}
+      propertyPath: squarePrefab
+      value: 
+      objectReference: {fileID: 2814372130521531066, guid: 702eb33ac43094a9386b6870a0070aba, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d898dddedcd414ef8bcc09d859ab74ba, type: 3}
 --- !u!1 &8756310735631992970
