@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using Random = System.Random;
+using Random = UnityEngine.Random;
 
 namespace SDM.Task.MovingDots
 {
@@ -20,8 +20,6 @@ namespace SDM.Task.MovingDots
         List<MovingDot> _dotScripts = new List<MovingDot>();
         TMP_Text _text;
 
-        readonly Random _random = new Random(Environment.TickCount);
-
         void OnEnable()
         {
             for (var i = 0; i < numberOfDots; i++)
@@ -37,24 +35,13 @@ namespace SDM.Task.MovingDots
             
             _text = GetComponentInChildren<TMP_Text>();
             
-            for (var i = 0; i < 10; i++)
-            {
-                GenerateMovingDots(0.3f);
-            }
-        }
-
-        public float GenerateMovingDotsTrial()
-        {
-            if (!fixedCoherence)
-                coherence = (float) (_random.NextDouble() * 2 - 1f);
-            else
-                coherence *= Math.Sign(_random.NextDouble() - 0.5f);
-
             GenerateMovingDots(coherence);
-            _text.text = "Coherence: " + coherence.ToString("0.00");
-            return coherence;
-        }
 
+        }
+        
+        // <summary>
+        // Generates the moving dots based on coherence value.
+        // </summary>
         void GenerateMovingDots(float coherenceValue)
         {
             for (var i = 0; i < numberOfDots; i++)
@@ -62,10 +49,25 @@ namespace SDM.Task.MovingDots
                 var dot = _dots[i];
                 var dotScript = _dotScripts[i];
                 dot.SetActive(false);
-                dotScript.direction = _random.NextDouble() < Math.Abs(coherenceValue) ? - Math.Sign(coherenceValue) : 0f;
-                dotScript.UpdateMovingDirection();
+                dotScript.direction = Random.value < Math.Abs(coherenceValue) ? - Math.Sign(coherenceValue) : 0f;
+                dotScript.ResetMovingDirection();
                 dot.SetActive(true);
             }
+        }
+
+        // <summary>
+        // Generate coherence and random moving dots.
+        // </summary>
+        public float GenerateMovingDotsTrial()
+        {
+            if (!fixedCoherence)
+                coherence = Random.value * 2 - 1f;
+            else
+                coherence *= Math.Sign(Random.value - 0.5f);
+
+            GenerateMovingDots(coherence);
+            _text.text = "Coherence: " + coherence.ToString("0.00");
+            return coherence;
         }
 
     }

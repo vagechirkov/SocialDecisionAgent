@@ -1,67 +1,44 @@
-using System;
 using UnityEngine;
-using Random = System.Random;
-
+using Random = UnityEngine.Random;
 
 namespace SDM.Task.MovingDots
 {
     public class MovingDot : MonoBehaviour
     {
+        public float speed = 1.0f;
+        public float radius = 2.0f;
+        public float direction;
+        public Vector3 areaCenterPosition;
 
-        [HideInInspector] public float speed = 1.0f;
-        [HideInInspector] public float radius = 2.0f;
-        [HideInInspector] public float direction = 0.0f;
-        [HideInInspector] public Vector3 areaCenterPosition;
-        
-        readonly Random _random = new Random(Environment.TickCount);
-        
         Vector3 _movingDirection;
-        float _lifeTime;
 
         void OnEnable()
         {
-            transform.localPosition = new Vector3(0,
-                (float)(_random.NextDouble() * 1.8 - 1 ) * radius,
-                (float)(_random.NextDouble() * 1.8 - 1) * radius);
-            UpdateMovingDirection();
-            _lifeTime = (float) _random.NextDouble() * 250;
+            ResetPosition();
+            ResetMovingDirection();
         }
-        
+
         void Update()
         {
-            UpdatePosition();
             transform.localPosition += _movingDirection * speed * Time.deltaTime;
-            UpdateTimer();
+            if ((transform.localPosition - areaCenterPosition).magnitude > radius)
+                ResetPosition();
         }
-        
-        public void UpdateMovingDirection()
+
+        void ResetPosition()
+        {
+            var newPosition = Random.insideUnitCircle * radius;
+            transform.localPosition = new Vector3(0, newPosition.x, newPosition.y);
+        }
+
+        public void ResetMovingDirection()
         {
             if (direction != 0)
-                _movingDirection = new Vector3(0, 0, (float)(_random.NextDouble() + 0.2) * direction);
+                _movingDirection = new Vector3(0, 0, direction);
             else
-                _movingDirection = new Vector3(0, (float)(_random.NextDouble() - 0.5), (float)(_random.NextDouble() -0.5));
-        }
-        
-        void UpdatePosition()
-        {
-            if ((transform.localPosition - areaCenterPosition).magnitude > radius)
-            {
-                transform.localPosition = new Vector3(0,
-                    (float) (_random.NextDouble() * 1.8 - 1) * radius,
-                    (float) (_random.NextDouble() * 1.8 - 1) * radius);
-                UpdateMovingDirection();
-            }
-        }
-        
-        void UpdateTimer()
-        {
-            _lifeTime -= Time.deltaTime;
-            if (_lifeTime < 0)
-            {
-                _lifeTime = (float) _random.NextDouble() * 250;
-                UpdateMovingDirection();
-                UpdatePosition();
-            }
+                _movingDirection = new Vector3(0, (Random.value - 0.5f) * 2, (Random.value - 0.5f) * 2);
+
+            _movingDirection = Vector3.Normalize(_movingDirection);
         }
     }
 }
