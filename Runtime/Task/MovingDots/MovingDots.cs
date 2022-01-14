@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using Random = System.Random;
 
-namespace SDM.MovingDots
+namespace SDM.Task.MovingDots
 {
     public class MovingDots : MonoBehaviour
     {
