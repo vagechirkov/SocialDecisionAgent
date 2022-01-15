@@ -26,7 +26,7 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
                     var square = Instantiate(squarePrefab,  transform);
                     var squareScript = square.GetComponent<ColorMatchingSquare>();
                     
-                    var width = squareScript.Width;
+                    var width = squareScript.width;
                     var squarePositionY = parentPosition.y + width*i + width/2;
                     var squarePositionZ = parentPosition.z + width*j + width/2;
                     
