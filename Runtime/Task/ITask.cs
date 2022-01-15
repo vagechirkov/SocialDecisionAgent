@@ -4,6 +4,8 @@ namespace SocialDecisionAgent.Runtime.Task
     {
         
         float Coherence { get; set; }
-        
+
+        void GenerateSample();
+
     }
 }

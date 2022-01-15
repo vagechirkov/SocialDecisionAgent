@@ -5,35 +5,42 @@ using UnityEngine;
 
 namespace SocialDecisionAgent.Runtime.Task.ColorMatching
 {
-    public class ColorMatchingTask : MonoBehaviour
+    public class ColorMatchingTask : MonoBehaviour, ITask
     {
         [SerializeField] GameObject squarePrefab;
-
-
+        
         List<GameObject> _squares = new List<GameObject>();
+        
         List<ColorMatchingSquare> _squareScripts = new List<ColorMatchingSquare>();
-
-
+        
+        public float Coherence { get; set; }
+        
         void OnEnable()
         {
+            var parentPosition = transform.position;
             
             for (var i = -20; i < 20; i++)
             {
                 for (var j = -20; j < 20; j++)
                 {
                     var square = Instantiate(squarePrefab,  transform);
-                    var position = transform.position;
-                    square.transform.position = new Vector3(0, position.y + (float) i / 5, position.z +(float) j / 5);
                     var squareScript = square.GetComponent<ColorMatchingSquare>();
+                    
+                    var width = squareScript.Width;
+                    var squarePositionY = parentPosition.y + width*i + width/2;
+                    var squarePositionZ = parentPosition.z + width*j + width/2;
+                    
+                    square.transform.position = new Vector3(0, squarePositionY, squarePositionZ);
+                   
                     
                     _squares.Add(square);
                     _squareScripts.Add(squareScript);
                 }
             }
         }
-        
 
-        void GenerateSample()
+
+        public void GenerateSample()
         {
             for (var i = 0; i < 100; i++)
             {
@@ -45,8 +52,6 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
             
             
         }
-        
-        
         
     }
 }
