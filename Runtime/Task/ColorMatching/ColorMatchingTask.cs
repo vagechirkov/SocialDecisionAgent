@@ -9,6 +9,10 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
 
         [SerializeField] int nPixelsHalf = 20;
 
+        [SerializeField] bool fixedCoherence;
+        
+        [SerializeField] float coherence = 0.5f;
+
         readonly List<GameObject> _squares = new List<GameObject>();
 
         readonly List<ColorMatchingSquare> _squareScripts = new List<ColorMatchingSquare>();
@@ -39,6 +43,11 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
 
         public void GenerateSample()
         {
+            if (!fixedCoherence)
+                Coherence = Random.value * 2 - 1f;
+            else
+                Coherence = coherence * Mathf.Sign(Random.value - 0.5f);
+            
             foreach (var square in _squareScripts) square.SetColor(Random.value > Coherence ? Color.red : Color.green);
         }
     }

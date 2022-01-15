@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace SocialDecisionAgent.Runtime.Task.MovingDots
 {
-    public class MovingDots : MonoBehaviour
+    public class MovingDotsTask : MonoBehaviour
     {
         [SerializeField] GameObject dotPrefab;
         [SerializeField] int numberOfDots = 50;

@@ -31,9 +31,9 @@ namespace SocialDecisionAgent.Runtime.Group
 
         void Awake()
         {
-            InitializeAgentGroup();
             Task = task.GetComponent<ITask>();
             MaxEnvironmentSteps = maxEnvironmentSteps;
+            InitializeAgentGroup();
         }
 
         public void InitializeAgentGroup()
