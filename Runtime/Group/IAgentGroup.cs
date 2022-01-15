@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SDM.Group
+namespace SocialDecisionAgent.Runtime.Group
 {
     public interface IAgentGroup
     {

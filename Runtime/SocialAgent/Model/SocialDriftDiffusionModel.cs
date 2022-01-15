@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace SDM.Agents
+namespace SocialDecisionAgent.Runtime.SocialAgent.Model
 {
-    public class SocialDriftDiffusionModel
+    public class SocialDriftDiffusionModel: IAgentModel
     {
         // General
         public float ChoiceThreshold { get; set; }
@@ -22,7 +22,7 @@ namespace SDM.Agents
         public float CumulativeEvidence { get; set; }
         
         // Task
-        public float Coherence;
+        public float Coherence { get; set; }
         
 
         public void EstimateCumulativeEvidence()

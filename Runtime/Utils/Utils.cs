@@ -1,7 +1,7 @@
 using System;
 using Random = UnityEngine.Random;
 
-namespace SDM.Utils
+namespace SocialDecisionAgent.Runtime.Utils
 {
     public class Utils
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace SDM.Agents
+namespace SocialDecisionAgent.Runtime.SocialAgent.Action
 {
     public class AgentAction : MonoBehaviour, IAgentAction
     {

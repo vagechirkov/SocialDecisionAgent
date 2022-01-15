@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace SDM.Task.ColorMatching
+namespace SocialDecisionAgent.Runtime.Task.ColorMatching
 {
 
     public class ColorMatchingSquare : MonoBehaviour

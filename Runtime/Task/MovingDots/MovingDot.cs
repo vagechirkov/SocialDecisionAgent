@@ -1,7 +1,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace SDM.Task.MovingDots
+namespace SocialDecisionAgent.Runtime.Task.MovingDots
 {
     public class MovingDot : MonoBehaviour
     {

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using SDM.Agents;
+using SocialDecisionAgent.Runtime.Agents;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 
-namespace SDM.Utils
+namespace SocialDecisionAgent.Runtime.Utils
 {
     
     /// <summary>

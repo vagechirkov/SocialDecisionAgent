@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using SDM.Agents;
-using SDM.Task.MovingDots;
-using SDM.Utils;
+using SocialDecisionAgent.Runtime.Agents;
+using SocialDecisionAgent.Runtime.Utils;
+using SocialDecisionAgent.Runtime.Task.MovingDots;
 using Unity.MLAgents;
 using UnityEngine;
 
-namespace SDM.Group
+namespace SocialDecisionAgent.Runtime.Group
 {
-    public class MachineLearningGroupController : MonoBehaviour
+    public class MLAgentGroupController : MonoBehaviour
     {
         [Tooltip("Max Environment Steps")] public int maxEnvironmentSteps = 500;
         [SerializeField] MovingDots dots;

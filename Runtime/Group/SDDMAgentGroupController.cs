@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using SDM.Agents;
-using SDM.Utils;
+using SocialDecisionAgent.Runtime.Agents;
+using SocialDecisionAgent.Runtime.Utils;
 using UnityEngine;
 
-namespace SDM.Group
+namespace SocialDecisionAgent.Runtime.Group
 {
-    public class SocialDriftDiffusionGroupController : MonoBehaviour, IAgentGroup
+    public class SDDMAgentGroupController : MonoBehaviour, IAgentGroup
     {
         [field: Tooltip("Max Environment Steps")]
         public int MaxEnvironmentSteps { get; set; } = 1000;

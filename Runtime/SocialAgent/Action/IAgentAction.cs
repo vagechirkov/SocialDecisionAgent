@@ -1,4 +1,4 @@
-namespace SDM.Agents
+namespace SocialDecisionAgent.Runtime.SocialAgent.Action
 {
     public interface IAgentAction
     {
