@@ -19,7 +19,7 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
 
         public float Coherence { get; set; }
 
-        void OnEnable()
+        void Awake()
         {
             var parentPosition = transform.position;
 

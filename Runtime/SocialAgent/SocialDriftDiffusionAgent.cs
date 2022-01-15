@@ -32,7 +32,7 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         [Tooltip("Decision threshold for the social drift diffusion model")] [SerializeField]
         float threshold = 1f;
         
-        void Awake()
+        void Start()
         {
             Action = GetComponentInChildren<IAgentAction>();
             DecisionThreshold = threshold;

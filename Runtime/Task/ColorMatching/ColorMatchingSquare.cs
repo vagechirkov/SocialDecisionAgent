@@ -8,7 +8,7 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
 
         SpriteRenderer SprRend { get; set; }
         
-        void OnEnable()
+        void Awake()
         {
             SprRend = GetComponentInChildren<SpriteRenderer>();
             SprRend.size = new Vector2(width, width);

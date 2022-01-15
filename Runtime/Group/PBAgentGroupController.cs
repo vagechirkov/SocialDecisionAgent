@@ -7,7 +7,7 @@ namespace SocialDecisionAgent.Runtime.Group
     {
         int TrialCount { get; set; }
         
-        void Awake()
+        void Start()
         {
             InitializeAgentGroup();
             // Read CSV file

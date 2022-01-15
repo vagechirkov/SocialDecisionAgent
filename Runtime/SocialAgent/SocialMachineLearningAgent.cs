@@ -31,7 +31,7 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         public List<float> ActionHistory { get; set; } = new List<float>();
         
         
-        void Awake()
+        void Start()
         {
             ResetDecisionModel(0);
         }

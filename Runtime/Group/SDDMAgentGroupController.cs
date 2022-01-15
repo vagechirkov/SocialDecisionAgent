@@ -3,9 +3,10 @@ namespace SocialDecisionAgent.Runtime.Group
 {
     public class SDDMAgentGroupController : AgentGroupBase
     {
-        void Awake()
+        void Start()
         {
             InitializeAgentGroup();
+            GenerateTrial();
         }
         
         void FixedUpdate()

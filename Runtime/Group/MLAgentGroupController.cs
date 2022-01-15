@@ -7,7 +7,7 @@ namespace SocialDecisionAgent.Runtime.Group
         
         SimpleMultiAgentGroup _mlAgentGroup;
         
-        void Awake()
+        void Start()
         {
             InitializeAgentGroup();
 
@@ -20,6 +20,7 @@ namespace SocialDecisionAgent.Runtime.Group
                     _mlAgentGroup.RegisterAgent(mlAgent);
                 }
             }
+            GenerateTrial();
         }
         
         void FixedUpdate()
