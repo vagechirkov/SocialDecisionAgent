@@ -16,6 +16,11 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
     /// </summary>
     public class SocialMachineLearningAgent : Agent, ISocialAgent
     {
+        
+        [SerializeField] float noiseLevelSensors = 0.01f;
+        
+        [SerializeField] bool hideCoherenceInput;
+        
         public float Decision { get; set; }
 
         public float DecisionThreshold { get; set; }
@@ -25,13 +30,9 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         public IAgentAction Action { get; set; }
 
         public ITask Task { get; set; }
-
-
-        [SerializeField] float noiseLevelSensors = 0.01f;
-        [SerializeField] bool hideCoherenceInput;
         
-        [HideInInspector] public List<float> actionsHistory = new List<float>();
-
+        public List<float> ActionHistory { get; set; } = new List<float>();
+        
         void Awake()
         {
             ResetDecisionModel(0);
@@ -73,11 +74,11 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
                          Task.Coherence > 0 && Decision < 0)
                     AddReward(-1.0f);
 
-                actionsHistory.Add(newDecision);
+                ActionHistory.Add(newDecision);
             }
             else
             {
-                actionsHistory.Add(Decision);
+                ActionHistory.Add(Decision);
             }
         }
 

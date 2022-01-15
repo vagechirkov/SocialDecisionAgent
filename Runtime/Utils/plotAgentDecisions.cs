@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using SocialDecisionAgent.Runtime.Agents;
+using SocialDecisionAgent.Runtime.SocialAgent;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -12,7 +12,7 @@ namespace SocialDecisionAgent.Runtime.Utils
     /// </summary>
     public class plotAgentDecisions : MonoBehaviour
     {
-        public SocialDriftDiffusionAgent[] allAgents;
+        public ISocialAgent[] allAgents;
 
         Material onguiMat;
         Rect windowRect = new Rect(20, 20, 1500, 1000); // Screen.height - 500
@@ -84,11 +84,11 @@ namespace SocialDecisionAgent.Runtime.Utils
                 // Draw threshold lines
                 GL.Begin(GL.LINES);
                 GL.Color(Color.black);
-                GL.Vertex3(0, windowRect.height / 2 + allAgents[0].threshold * scale, 0);
-                GL.Vertex3(windowRect.width, windowRect.height / 2 + allAgents[0].threshold * scale, 0);
+                GL.Vertex3(0, windowRect.height / 2 + allAgents[0].DecisionThreshold * scale, 0);
+                GL.Vertex3(windowRect.width, windowRect.height / 2 + allAgents[0].DecisionThreshold * scale, 0);
 
-                GL.Vertex3(0, windowRect.height / 2 - allAgents[0].threshold * scale, 0);
-                GL.Vertex3(windowRect.width, windowRect.height / 2 - allAgents[0].threshold * scale, 0);
+                GL.Vertex3(0, windowRect.height / 2 - allAgents[0].DecisionThreshold * scale, 0);
+                GL.Vertex3(windowRect.width, windowRect.height / 2 - allAgents[0].DecisionThreshold * scale, 0);
                 GL.End();
 
                 // Draw the lines of the graph
@@ -98,15 +98,15 @@ namespace SocialDecisionAgent.Runtime.Utils
                     GL.Begin(GL.LINES);
                     GL.Color(colors[ai]);
 
-                    var valueIndex = agent.actionsHistory.Count - 1;
+                    var valueIndex = agent.ActionHistory.Count - 1;
                     for (var i = (int) (windowRect.width - quadX); i > 3; i--)
                     {
                         float y1 = 0;
                         float y2 = 0;
                         if (valueIndex > 0)
                         {
-                            y2 = agent.actionsHistory[valueIndex] * scale;
-                            y1 = agent.actionsHistory[valueIndex - 1] * scale;
+                            y2 = agent.ActionHistory[valueIndex] * scale;
+                            y1 = agent.ActionHistory[valueIndex - 1] * scale;
                         }
 
                         GL.Vertex3(i, windowRect.height / 2 - y2, 0);

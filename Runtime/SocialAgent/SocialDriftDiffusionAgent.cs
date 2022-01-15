@@ -31,7 +31,7 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
 
         SocialDriftDiffusionModel sddm;
 
-        [HideInInspector] public List<float> actionsHistory = new List<float>();
+        public List<float> ActionHistory { get; set; } = new List<float>();
 
         void Awake()
         {
@@ -62,7 +62,7 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
             sddm.NumberOfResponsesB = neighbors.Count(n => Math.Abs(n + 1) < 0.01);
             sddm.EstimateCumulativeEvidence();
 
-            actionsHistory.Add(sddm.CumulativeEvidence);
+            ActionHistory.Add(sddm.CumulativeEvidence);
             if (Decision == 0)
             {
                 Decision = Math.Abs(sddm.CumulativeEvidence) >= threshold ? Math.Sign(sddm.CumulativeEvidence) : 0;
