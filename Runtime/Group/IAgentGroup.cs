@@ -1,4 +1,5 @@
 using SocialDecisionAgent.Runtime.SocialAgent;
+using SocialDecisionAgent.Runtime.Task;
 using UnityEngine;
 
 namespace SocialDecisionAgent.Runtime.Group
@@ -8,6 +9,8 @@ namespace SocialDecisionAgent.Runtime.Group
         int MaxEnvironmentSteps { get; set; }
         
         ISocialAgent [] Agents { get; }
+        
+        ITask Task { get; }
         
         GameObject[] AgentGameObjects { get; }
 

@@ -4,7 +4,6 @@ using System.Linq;
 using SocialDecisionAgent.Runtime.Group;
 using SocialDecisionAgent.Runtime.SocialAgent.Action;
 using SocialDecisionAgent.Runtime.SocialAgent.Model;
-using SocialDecisionAgent.Runtime.Task;
 using UnityEngine;
 
 namespace SocialDecisionAgent.Runtime.SocialAgent
@@ -19,21 +18,17 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
 
         public IAgentAction Action { get; set; }
         
-        public ITask Task { get; set; }
-        
         public List<float> ActionHistory { get; set; } = new List<float>();
 
+        // Social Drift Diffusion model
+        SocialDriftDiffusionModel sddm { get; set; }
+        
         // social drift diffusion model parameters
         [Tooltip("Scaling parameter of the social drift rate")] [SerializeField]
         float socialDriftInfluence = 0.36f;
 
         [Tooltip("Power of the majority size")] [SerializeField]
         float socialDriftQ = 0.66f;
-
-        [Tooltip("Threshold of the drift diffusion model")] [SerializeField]
-        public float threshold = 1; // 3.3f;
-
-        SocialDriftDiffusionModel sddm;
         
         void Awake()
         {
@@ -45,7 +40,7 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         {
             sddm = new SocialDriftDiffusionModel
             {
-                ChoiceThreshold = threshold,
+                ChoiceThreshold = DecisionThreshold,
                 NumberOfResponsesA = 0,
                 NumberOfResponsesB = 0,
                 SocialDriftInfluence = socialDriftInfluence,
@@ -65,13 +60,13 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
             sddm.EstimateCumulativeEvidence();
 
             ActionHistory.Add(sddm.CumulativeEvidence);
-            if (Decision == 0)
-            {
-                Decision = Math.Abs(sddm.CumulativeEvidence) >= threshold ? Math.Sign(sddm.CumulativeEvidence) : 0;
-                sddm.Decision = Decision;
+            
+            if (Decision != 0) return;
+            
+            Decision = Math.Abs(sddm.CumulativeEvidence) >= DecisionThreshold ? Math.Sign(sddm.CumulativeEvidence) : 0;
+            sddm.Decision = Decision;
 
-                Action.PerformAction(Decision);
-            }
+            Action.PerformAction(Decision);
         }
     }
 }

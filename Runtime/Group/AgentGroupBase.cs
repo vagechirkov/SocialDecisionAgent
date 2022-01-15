@@ -1,23 +1,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using SocialDecisionAgent.Runtime.SocialAgent;
+using SocialDecisionAgent.Runtime.Task;
 using SocialDecisionAgent.Runtime.Utils;
 using UnityEngine;
 
 namespace SocialDecisionAgent.Runtime.Group
 {
-    public class AgentGroupBase: MonoBehaviour, IAgentGroup
+    public class AgentGroupBase : MonoBehaviour, IAgentGroup
 
     {
-        [field: Tooltip("Max Environment Steps")]
-        public int MaxEnvironmentSteps { get; set; } = 1000;
+        [field: Tooltip("Max Environment Steps")] [SerializeField]
+        int maxEnvironmentSteps = 500;
 
-        [SerializeField] float fovDist = 20.0f;
+        [field: Tooltip("Task object")] [SerializeField] 
+        GameObject task;
         
+        [SerializeField] float fovDist = 20.0f;
+
         [SerializeField] float fovAngle = 45.0f;
         
-        const float MovingDotsObservation = 0.75f;
+        public ITask Task { get; private set; }
 
+        public int MaxEnvironmentSteps { get; set; } = 1000;
+        
         public GameObject[] AgentGameObjects { get; private set; }
         public ISocialAgent[] Agents { get; private set; }
 
@@ -26,19 +32,18 @@ namespace SocialDecisionAgent.Runtime.Group
         void Awake()
         {
             InitializeAgentGroup();
+            Task = task.GetComponent<ITask>();
+            MaxEnvironmentSteps = maxEnvironmentSteps;
         }
 
         public void InitializeAgentGroup()
         {
             AgentGameObjects = GameObject.FindGameObjectsWithTag("agent");
             Agents = AgentGameObjects.Select(a => a.GetComponent<ISocialAgent>()).ToArray();
-            foreach (var agent in Agents)
-            {
-                agent.Group = this;
-            }
+            foreach (var agent in Agents) agent.Group = this;
 
             ResetScene();
-            
+
             // TODO: Remove this
             GetComponent<plotAgentDecisions>().allAgents = Agents;
         }
@@ -46,22 +51,17 @@ namespace SocialDecisionAgent.Runtime.Group
         void FixedUpdate()
         {
             resetTimer += 1;
-            
-            if (resetTimer >= MaxEnvironmentSteps && MaxEnvironmentSteps > 0)
-            {
-                ResetScene();
-            }
+
+            if (resetTimer >= MaxEnvironmentSteps && MaxEnvironmentSteps > 0) ResetScene();
         }
-        
+
         public void ResetScene()
         {
             resetTimer = 0;
-            foreach (var agent in Agents)
-            {
-                agent.ResetDecisionModel(MovingDotsObservation);
-            }
+            Task.GenerateSample();
+            foreach (var agent in Agents) agent.ResetDecisionModel(Task.Coherence);
         }
-        
+
         public float[] CollectResponsesInTheFieldOfView(GameObject agent)
         {
             var neighborDecisions = new List<float>();
@@ -85,7 +85,5 @@ namespace SocialDecisionAgent.Runtime.Group
 
             return neighborDecisions.ToArray();
         }
-        
-
     }
 }

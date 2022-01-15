@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using SocialDecisionAgent.Runtime.Group;
 using SocialDecisionAgent.Runtime.SocialAgent.Action;
-using SocialDecisionAgent.Runtime.Task;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -28,10 +27,10 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         public IAgentGroup Group { get; set; }
 
         public IAgentAction Action { get; set; }
-
-        public ITask Task { get; set; }
         
         public List<float> ActionHistory { get; set; } = new List<float>();
+        
+        public float Coherence { get; set; }
         
         void Awake()
         {
@@ -43,13 +42,12 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
             Decision = 0;
         }
 
-
         public override void CollectObservations(VectorSensor sensor)
         {
             if (hideCoherenceInput)
                 sensor.AddObservation(0);
             else
-                sensor.AddObservation(Utils.Utils.SampleGaussian(Task.Coherence, noiseLevelSensors));
+                sensor.AddObservation(Utils.Utils.SampleGaussian(Coherence, noiseLevelSensors));
             var neighbors = Group.CollectResponsesInTheFieldOfView(gameObject);
             foreach (var n in neighbors) sensor.AddObservation(n);
         }
@@ -67,11 +65,9 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
 
                 AddReward(-1f / Group.MaxEnvironmentSteps);
 
-                if (Task.Coherence < 0 && Decision < 0 ||
-                    Task.Coherence > 0 && Decision > 0)
+                if (Coherence < 0 && Decision < 0 || Coherence > 0 && Decision > 0)
                     AddReward(1.0f);
-                else if (Task.Coherence < 0 && Decision > 0 ||
-                         Task.Coherence > 0 && Decision < 0)
+                else if (Coherence < 0 && Decision > 0 || Coherence > 0 && Decision < 0)
                     AddReward(-1.0f);
 
                 ActionHistory.Add(newDecision);
