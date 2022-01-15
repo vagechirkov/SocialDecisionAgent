@@ -30,11 +30,6 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         
         public List<float> ActionHistory { get; set; } = new List<float>();
         
-        
-        void Start()
-        {
-            ResetDecisionModel(0);
-        }
 
         public void ResetDecisionModel(float coherence)
         {

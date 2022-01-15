@@ -12,6 +12,8 @@ namespace SocialDecisionAgent.Runtime.Group
         
         ITask Task { get; }
         
+        bool IsTrialRunning { get; set; }
+        
         GameObject[] AgentGameObjects { get; }
 
         void InitializeAgentGroup();
@@ -19,7 +21,7 @@ namespace SocialDecisionAgent.Runtime.Group
         float[] CollectResponsesInTheFieldOfView(GameObject agent);
 
         void GenerateTrial();
-        
-        
+
+
     }
 }

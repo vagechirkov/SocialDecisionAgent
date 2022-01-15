@@ -32,7 +32,7 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         [Tooltip("Decision threshold for the social drift diffusion model")] [SerializeField]
         float threshold = 1f;
         
-        void Start()
+        void Awake()
         {
             Action = GetComponentInChildren<IAgentAction>();
             DecisionThreshold = threshold;
@@ -56,19 +56,24 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
 
         void FixedUpdate()
         {
-            var neighbors = Group.CollectResponsesInTheFieldOfView(gameObject);
-            sddm.NumberOfResponsesA = neighbors.Count(n => Mathf.Abs(n - 1) < 0.01);
-            sddm.NumberOfResponsesB = neighbors.Count(n => Mathf.Abs(n + 1) < 0.01);
-            sddm.EstimateCumulativeEvidence();
+            if (Group.IsTrialRunning)
+            {
+                var neighbors = Group.CollectResponsesInTheFieldOfView(gameObject);
+                sddm.NumberOfResponsesA = neighbors.Count(n => Mathf.Abs(n - 1) < 0.01);
+                sddm.NumberOfResponsesB = neighbors.Count(n => Mathf.Abs(n + 1) < 0.01);
+                sddm.EstimateCumulativeEvidence();
 
-            ActionHistory.Add(sddm.CumulativeEvidence);
-            
-            if (Decision != 0) return;
-            
-            Decision = Mathf.Abs(sddm.CumulativeEvidence) >= DecisionThreshold ? Mathf.Sign(sddm.CumulativeEvidence) : 0;
-            sddm.Decision = Decision;
+                ActionHistory.Add(sddm.CumulativeEvidence);
 
-            Action.PerformAction(Decision);
+                if (Decision != 0) return;
+
+                Decision = Mathf.Abs(sddm.CumulativeEvidence) >= DecisionThreshold
+                    ? Mathf.Sign(sddm.CumulativeEvidence)
+                    : 0;
+                sddm.Decision = Decision;
+
+                Action.PerformAction(Decision);
+            }
         }
     }
 }

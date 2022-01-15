@@ -1,4 +1,5 @@
 using Unity.MLAgents;
+using UnityEngine;
 
 namespace SocialDecisionAgent.Runtime.Group
 {
@@ -7,7 +8,7 @@ namespace SocialDecisionAgent.Runtime.Group
         
         SimpleMultiAgentGroup _mlAgentGroup;
         
-        void Start()
+        void Awake()
         {
             InitializeAgentGroup();
 
@@ -20,16 +21,24 @@ namespace SocialDecisionAgent.Runtime.Group
                     _mlAgentGroup.RegisterAgent(mlAgent);
                 }
             }
-            GenerateTrial();
         }
         
         void FixedUpdate()
         {
-            resetTimer += 1;
-            if (resetTimer >= MaxEnvironmentSteps)
+            if (Input.GetKeyDown(KeyCode.Space) && !IsTrialRunning)
             {
-                _mlAgentGroup.GroupEpisodeInterrupted();
+                IsTrialRunning = true;
                 GenerateTrial();
+            }
+
+            if (IsTrialRunning)
+            {
+                resetTimer += 1;
+                if (resetTimer >= MaxEnvironmentSteps)
+                {
+                    _mlAgentGroup.GroupEpisodeInterrupted();
+                    IsTrialRunning = false;
+                }
             }
         }
 

@@ -28,6 +28,8 @@ namespace SocialDecisionAgent.Runtime.Group
         
         public GameObject[] AgentGameObjects { get; private set; }
         public ISocialAgent[] Agents { get; private set; }
+        
+        public bool IsTrialRunning { get; set; }
 
         public void InitializeAgentGroup()
         {

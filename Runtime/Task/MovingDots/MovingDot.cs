@@ -12,7 +12,7 @@ namespace SocialDecisionAgent.Runtime.Task.MovingDots
 
         Vector3 _movingDirection;
 
-        void OnEnable()
+        void Awake()
         {
             ResetPosition();
             ResetMovingDirection();

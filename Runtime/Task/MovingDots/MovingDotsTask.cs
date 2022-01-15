@@ -20,7 +20,7 @@ namespace SocialDecisionAgent.Runtime.Task.MovingDots
         List<MovingDot> _dotScripts = new List<MovingDot>();
         TMP_Text _text;
 
-        void OnEnable()
+        void Awake()
         {
             for (var i = 0; i < numberOfDots; i++)
             {
