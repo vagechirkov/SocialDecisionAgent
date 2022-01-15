@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SDM.Agents
 {
-    public class AgentAction : MonoBehaviour
+    public class AgentAction : MonoBehaviour, IAgentAction
     {
         Material agentMaterial;
 
@@ -14,7 +14,7 @@ namespace SDM.Agents
             agentMaterial = GetComponent<MeshRenderer>().material;
         }
 
-        public void UpdateAgentColor(float agentDecision)
+        public void PerformAction(float agentDecision)
         {
             agentMaterial.color = agentDecision switch
             {

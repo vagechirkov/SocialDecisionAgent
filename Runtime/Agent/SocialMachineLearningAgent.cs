@@ -58,7 +58,6 @@ namespace SDM.Agents
                 NumberOfResponsesB = 0,
                 SocialDriftInfluence = neighborsInfluenceDDM,
                 SocialDriftQ = 0.66f,
-                Rand = _random,
                 CumulativeEvidence = 0
             };
             agentDecision = 0;
@@ -69,7 +68,7 @@ namespace SDM.Agents
             if (hideCoherenceInput)
                 sensor.AddObservation(0);
             else
-                sensor.AddObservation((float)Utils.Utils.SampleGaussian(_random, movingDotsCoherence, noiseLevelSensors));
+                sensor.AddObservation(Utils.Utils.SampleGaussian(movingDotsCoherence, noiseLevelSensors));
             var neighbors = Group.CollectResponsesInTheFieldOfView(gameObject);
             foreach (var n in neighbors) sensor.AddObservation(n);
         }

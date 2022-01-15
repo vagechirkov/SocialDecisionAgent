@@ -1,5 +1,5 @@
 using System;
-using Random = System.Random;
+using Random = UnityEngine.Random;
 
 namespace SDM.Utils
 {
@@ -10,18 +10,18 @@ namespace SDM.Utils
         /// https://www.alanzucconi.com/2015/09/16/how-to-sample-from-a-gaussian-distribution/
         /// See also https://numerics.mathdotnet.com/
         /// </summary>
-        internal static double SampleGaussian(Random random, double mean, double std)
+        internal static float SampleGaussian(float mean, float std)
         {
-            double u, v, s;
+            float u, v, s;
             do
             {
-                u = random.NextDouble() * 2.0 - 1.0;
-                v = random.NextDouble() * 2.0 - 1.0;
+                u = Random.value * 2.0f - 1.0f;
+                v = Random.value * 2.0f - 1.0f;
                 s = u * u + v * v;
             }
-            while (s >= 1.0 || Math.Abs(s) < double.Epsilon);
+            while (s >= 1.0f || Math.Abs(s) < float.Epsilon);
 
-            s = Math.Sqrt(-2.0 * Math.Log(s) / s);
+            s = (float) Math.Sqrt(-2.0f * Math.Log(s) / s);
 
             return v * s * std + mean;
         }

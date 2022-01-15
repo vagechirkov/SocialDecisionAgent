@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using Random = System.Random;
 
 namespace SDM.Agents
 {
@@ -26,8 +24,6 @@ namespace SDM.Agents
         // Task
         public float Coherence;
         
-        public Random Rand { get; set; }
-
 
         public void EstimateCumulativeEvidence()
         {
@@ -39,7 +35,7 @@ namespace SDM.Agents
 
             CumulativeEvidence = CumulativeEvidence +
                                  (PersonalDrift + SocialDrift) * Time.fixedDeltaTime +
-                                 Time.fixedDeltaTime * (float) Utils.Utils.SampleGaussian(Rand, 0, 1);
+                                 Time.fixedDeltaTime * Utils.Utils.SampleGaussian(0, 1);
         }
 
         // TODO: negative m is possible??
@@ -53,7 +49,7 @@ namespace SDM.Agents
         // TODO: This is not the correct way to estimate personal drift rate.
         float EstimatePersonalDriftRate(float coherence)
         {
-            return 0.53f * coherence + (float) Utils.Utils.SampleGaussian(Rand, 0, 1);
+            return 0.53f * coherence + Utils.Utils.SampleGaussian( 0, 1);
         }
     }
 }

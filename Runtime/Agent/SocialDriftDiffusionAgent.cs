@@ -1,15 +1,12 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using SDM.Group;
-using TMPro;
 using UnityEngine;
-using Random = System.Random;
 
 namespace SDM.Agents
 {
-    public class SocialDriftDiffusionAgent : MonoBehaviour
+    public class SocialDriftDiffusionAgent : MonoBehaviour, ISocialAgent
     {
         
         // Model parameters
@@ -24,19 +21,17 @@ namespace SDM.Agents
         
         public float Decision { get; set; }
         
-        public SocialDriftDiffusionGroupController Group { get; set; }
+        public IAgentGroup Group { get; set; }
 
-        readonly Random _random = new Random((int)DateTime.Now.Ticks);
+        public IAgentAction Action { get; set; }
 
         public SocialDriftDiffusionModel sddm;
-        
-        AgentAction _action;
         
         [HideInInspector] public List<float> actionsHistory = new List<float>();
         
         void Awake()
         {
-            _action = GetComponent<AgentAction>();
+            Action = GetComponent<IAgentAction>();
             ResetDecisionModel(0);
         }
         
@@ -49,15 +44,13 @@ namespace SDM.Agents
                 NumberOfResponsesB = 0,
                 SocialDriftInfluence = socialDriftInfluence,
                 SocialDriftQ = socialDriftQ,
-                Rand = _random,
                 CumulativeEvidence = 0
             };
             Decision = 0;
             sddm.Coherence = coherence;
-            _action.ResetAction();
+            Action.ResetAction();
         }
-
-
+        
         void FixedUpdate()
         {
             var neighbors = Group.CollectResponsesInTheFieldOfView(gameObject);
@@ -71,7 +64,7 @@ namespace SDM.Agents
                 Decision = Math.Abs(sddm.CumulativeEvidence) >= threshold ? Math.Sign(sddm.CumulativeEvidence) : 0;
                 sddm.Decision = Decision;
 
-                _action.UpdateAgentColor(Decision);
+                Action.PerformAction(Decision);
             }
         }
     }

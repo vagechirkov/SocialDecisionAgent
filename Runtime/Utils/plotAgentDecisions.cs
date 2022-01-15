@@ -41,7 +41,7 @@ namespace SDM.Utils
 
             foreach (var a in allAgents) colors.Add(Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f));
 
-            _numberOfSteps = allAgents[0].Group.maxEnvironmentSteps;
+            _numberOfSteps = allAgents[0].Group.MaxEnvironmentSteps;
         }
 
         void OnGUI()

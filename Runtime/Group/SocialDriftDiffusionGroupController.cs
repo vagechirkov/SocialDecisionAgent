@@ -7,9 +7,11 @@ using UnityEngine;
 
 namespace SDM.Group
 {
-    public class SocialDriftDiffusionGroupController : MonoBehaviour
+    public class SocialDriftDiffusionGroupController : MonoBehaviour, IAgentGroup
     {
-        [Tooltip("Max Environment Steps")] public int maxEnvironmentSteps = 1000;
+        [field: Tooltip("Max Environment Steps")]
+        public int MaxEnvironmentSteps { get; set; } = 1000;
+
         [SerializeField] float fovDist = 20.0f;
         [SerializeField] float fovAngle = 45.0f;
         
@@ -62,7 +64,7 @@ namespace SDM.Group
             resetTimer += 1;
             // var agentDecisions = _agentGroupScrips.Select(a => a.sddm.CumulativeEvidence).ToArray();
             // Debug.Log(string.Join(" ", agentDecisions));
-            if (resetTimer >= maxEnvironmentSteps && maxEnvironmentSteps > 0)
+            if (resetTimer >= MaxEnvironmentSteps && MaxEnvironmentSteps > 0)
             {
                 ResetScene();
             }
