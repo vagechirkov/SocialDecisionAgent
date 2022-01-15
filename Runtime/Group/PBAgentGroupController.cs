@@ -5,12 +5,16 @@ namespace SocialDecisionAgent.Runtime.Group
 {
     public class PBAgentGroupController : AgentGroupBase
     {
+        [SerializeField] string pathToBehaviourData;
+
+        string[][] BehaviourData { get; set; }
+        
         int TrialCount { get; set; }
         
         void Awake()
         {
             InitializeAgentGroup();
-            // Read CSV file
+            BehaviourData = Utils.Utils.ReadCsvFile(pathToBehaviourData);
             TrialCount = 30;
         }
         
