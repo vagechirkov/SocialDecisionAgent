@@ -18,7 +18,6 @@ namespace SocialDecisionAgent.Runtime.Utils
         Rect windowRect = new Rect(20, 20, 1500, 1000); // Screen.height - 500
         readonly List<Color> colors = new List<Color>();
         bool showWindow;
-        int _numberOfSteps;
 
         void Start()
         {
@@ -40,8 +39,7 @@ namespace SocialDecisionAgent.Runtime.Utils
             }
 
             foreach (var a in allAgents) colors.Add(Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f));
-
-            _numberOfSteps = allAgents[0].Group.MaxEnvironmentSteps;
+            
         }
 
         void OnGUI()

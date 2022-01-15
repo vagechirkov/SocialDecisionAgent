@@ -1,3 +1,4 @@
+using SocialDecisionAgent.Runtime.SocialAgent;
 using UnityEngine;
 
 namespace SocialDecisionAgent.Runtime.Group
@@ -6,6 +7,16 @@ namespace SocialDecisionAgent.Runtime.Group
     {
         int MaxEnvironmentSteps { get; set; }
         
+        ISocialAgent [] Agents { get; }
+        
+        GameObject[] AgentGameObjects { get; }
+
+        void InitializeAgentGroup();
+        
         float[] CollectResponsesInTheFieldOfView(GameObject agent);
+
+        void ResetScene();
+        
+        
     }
 }
