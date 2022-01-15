@@ -39,9 +39,6 @@ namespace SocialDecisionAgent.Runtime.Group
             AgentGameObjects = GameObject.FindGameObjectsWithTag("agent");
             Agents = AgentGameObjects.Select(a => a.GetComponent<ISocialAgent>()).ToArray();
             foreach (var agent in Agents) agent.Group = this;
-            
-            // TODO: Remove this
-            GetComponent<plotAgentDecisions>().allAgents = Agents;
         }
         
         public virtual void GenerateTrial()

@@ -1,3 +1,4 @@
+using System.Globalization;
 using SocialDecisionAgent.Runtime.SocialAgent;
 using UnityEngine;
 
@@ -15,17 +16,25 @@ namespace SocialDecisionAgent.Runtime.Group
         {
             InitializeAgentGroup();
             BehaviourData = Utils.Utils.ReadCsvFile(pathToBehaviourData);
-            TrialCount = 30;
+            TrialCount = 0;
         }
         
         void FixedUpdate()
         {
-            resetTimer += 1;
-
-            if (resetTimer >= MaxEnvironmentSteps)
+            if (Input.GetKeyDown(KeyCode.Space) && !IsTrialRunning)
             {
-                TrialCount -= 1;
+                IsTrialRunning = true;
                 GenerateTrial();
+            }
+            
+            if (IsTrialRunning)
+            {
+                resetTimer += 1;
+                if (resetTimer >= MaxEnvironmentSteps)
+                {
+                    foreach (var agent in Agents) agent.ResetDecisionModel(0);
+                    IsTrialRunning = false;
+                }
             }
         }
         
@@ -33,7 +42,7 @@ namespace SocialDecisionAgent.Runtime.Group
         {
             resetTimer = 0;
             Task.GenerateSample();
-            TrialCount -= 1;
+            TrialCount += 1;
             for (var i = 0; i < Agents.Length; i++)
             {
                 var agent = Agents[i];
@@ -42,8 +51,9 @@ namespace SocialDecisionAgent.Runtime.Group
                 {
                     // TODO: read decisions from file
                     pbAgent.Decision = 1;
-                    pbAgent.ReactionTime = 4f;
-                    pbAgent.StartCoroutine(pbAgent.WaitAndResponse());
+                    var reactionTime = float.Parse(
+                        BehaviourData[TrialCount][i], CultureInfo.InvariantCulture.NumberFormat);
+                    pbAgent.StartCoroutine(pbAgent.WaitAndResponse(reactionTime));
                 }
             }
         }

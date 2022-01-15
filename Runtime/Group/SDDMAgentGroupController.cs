@@ -1,3 +1,4 @@
+using SocialDecisionAgent.Runtime.Utils;
 using UnityEngine;
 
 namespace SocialDecisionAgent.Runtime.Group
@@ -7,6 +8,9 @@ namespace SocialDecisionAgent.Runtime.Group
         void Awake()
         {
             InitializeAgentGroup();
+            var plotter = GetComponent<plotAgentDecisions>();
+            if(plotter != null) 
+                plotter.allAgents = Agents;
         }
         
         void FixedUpdate()
