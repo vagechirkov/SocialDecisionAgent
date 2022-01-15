@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
 namespace SocialDecisionAgent.Runtime.SocialAgent.Action
 {
-    public class AgentAction : MonoBehaviour, IAgentAction
+    public class CapsuleAgentAction : MonoBehaviour, IAgentAction
     {
         Material agentMaterial;
 

@@ -1,10 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using SocialDecisionAgent.Runtime.SocialAgent;
-using SocialDecisionAgent.Runtime.Task.MovingDots;
 using Unity.MLAgents;
-using UnityEngine;
 
 namespace SocialDecisionAgent.Runtime.Group
 {

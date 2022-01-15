@@ -12,14 +12,18 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
     public class SocialDriftDiffusionAgent : MonoBehaviour, ISocialAgent
     {
         public float Decision { get; set; }
+        
         public float DecisionThreshold { get; set; }
 
         public IAgentGroup Group { get; set; }
 
         public IAgentAction Action { get; set; }
+        
         public ITask Task { get; set; }
+        
+        public List<float> ActionHistory { get; set; } = new List<float>();
 
-        // Model parameters
+        // social drift diffusion model parameters
         [Tooltip("Scaling parameter of the social drift rate")] [SerializeField]
         float socialDriftInfluence = 0.36f;
 
@@ -30,12 +34,10 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         public float threshold = 1; // 3.3f;
 
         SocialDriftDiffusionModel sddm;
-
-        public List<float> ActionHistory { get; set; } = new List<float>();
-
+        
         void Awake()
         {
-            Action = GetComponent<IAgentAction>();
+            Action = GetComponentInChildren<IAgentAction>();
             ResetDecisionModel(0);
         }
 
