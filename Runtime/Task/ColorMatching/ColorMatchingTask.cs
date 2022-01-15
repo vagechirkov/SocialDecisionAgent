@@ -8,6 +8,8 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
     public class ColorMatchingTask : MonoBehaviour, ITask
     {
         [SerializeField] GameObject squarePrefab;
+
+        [SerializeField] int nPixelsHalf = 20;
         
         List<GameObject> _squares = new List<GameObject>();
         
@@ -19,9 +21,9 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
         {
             var parentPosition = transform.position;
             
-            for (var i = -20; i < 20; i++)
+            for (var i = -nPixelsHalf; i < nPixelsHalf; i++)
             {
-                for (var j = -20; j < 20; j++)
+                for (var j = -nPixelsHalf; j < nPixelsHalf; j++)
                 {
                     var square = Instantiate(squarePrefab,  transform);
                     var squareScript = square.GetComponent<ColorMatchingSquare>();
@@ -42,15 +44,7 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
 
         public void GenerateSample()
         {
-            for (var i = 0; i < 100; i++)
-            {
-                for (var j = 0; j < 100; j++)
-                {
-                    
-                }
-            }
-            
-            
+            foreach (var square in _squareScripts) square.SetColor(Random.value > Coherence ? Color.red : Color.green);
         }
         
     }

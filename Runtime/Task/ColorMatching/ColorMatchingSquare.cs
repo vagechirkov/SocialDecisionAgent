@@ -7,13 +7,17 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
         [SerializeField] public float width = 0.1f;
 
         SpriteRenderer SprRend { get; set; }
-
-
+        
         void OnEnable()
         {
             SprRend = GetComponentInChildren<SpriteRenderer>();
             SprRend.size = new Vector2(width, width);
-            SprRend.color = Random.ColorHSV();
+            SprRend.color = Color.blue;
+        }
+        
+        public void SetColor(Color color)
+        {
+            SprRend.color = color;
         }
     }
 }
