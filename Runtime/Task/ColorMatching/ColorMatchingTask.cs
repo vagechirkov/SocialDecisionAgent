@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 
 namespace SocialDecisionAgent.Runtime.Task.ColorMatching
 {
@@ -10,34 +8,31 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
         [SerializeField] GameObject squarePrefab;
 
         [SerializeField] int nPixelsHalf = 20;
-        
-        List<GameObject> _squares = new List<GameObject>();
-        
-        List<ColorMatchingSquare> _squareScripts = new List<ColorMatchingSquare>();
-        
+
+        readonly List<GameObject> _squares = new List<GameObject>();
+
+        readonly List<ColorMatchingSquare> _squareScripts = new List<ColorMatchingSquare>();
+
         public float Coherence { get; set; }
-        
+
         void OnEnable()
         {
             var parentPosition = transform.position;
-            
+
             for (var i = -nPixelsHalf; i < nPixelsHalf; i++)
+            for (var j = -nPixelsHalf; j < nPixelsHalf; j++)
             {
-                for (var j = -nPixelsHalf; j < nPixelsHalf; j++)
-                {
-                    var square = Instantiate(squarePrefab,  transform);
-                    var squareScript = square.GetComponent<ColorMatchingSquare>();
-                    
-                    var width = squareScript.width;
-                    var squarePositionY = parentPosition.y + width*i + width/2;
-                    var squarePositionZ = parentPosition.z + width*j + width/2;
-                    
-                    square.transform.position = new Vector3(0, squarePositionY, squarePositionZ);
-                   
-                    
-                    _squares.Add(square);
-                    _squareScripts.Add(squareScript);
-                }
+                var square = Instantiate(squarePrefab, transform);
+                var squareScript = square.GetComponent<ColorMatchingSquare>();
+
+                var width = squareScript.width;
+                var squarePositionY = parentPosition.y + width * i + width / 2;
+                var squarePositionZ = parentPosition.z + width * j + width / 2;
+
+                square.transform.position = new Vector3(0, squarePositionY, squarePositionZ);
+
+                _squares.Add(square);
+                _squareScripts.Add(squareScript);
             }
         }
 
@@ -46,6 +41,5 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
         {
             foreach (var square in _squareScripts) square.SetColor(Random.value > Coherence ? Color.red : Color.green);
         }
-        
     }
 }
