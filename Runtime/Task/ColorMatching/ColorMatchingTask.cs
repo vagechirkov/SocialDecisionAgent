@@ -44,9 +44,9 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
         public void GenerateSample()
         {
             if (!fixedCoherence)
-                Coherence = Random.value * 2 - 1f;
+                Coherence = Random.value;
             else
-                Coherence = coherence * Mathf.Sign(Random.value - 0.5f);
+                Coherence = coherence;
             
             foreach (var square in _squareScripts) square.SetColor(Random.value > Coherence ? Color.red : Color.green);
         }

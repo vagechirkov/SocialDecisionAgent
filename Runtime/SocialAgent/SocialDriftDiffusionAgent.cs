@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using SocialDecisionAgent.Runtime.Group;
@@ -30,10 +29,13 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         [Tooltip("Power of the majority size")] [SerializeField]
         float socialDriftQ = 0.66f;
         
+        [Tooltip("Decision threshold for the social drift diffusion model")] [SerializeField]
+        float threshold = 1f;
+        
         void Awake()
         {
             Action = GetComponentInChildren<IAgentAction>();
-            ResetDecisionModel(0);
+            DecisionThreshold = threshold;
         }
 
         public void ResetDecisionModel(float coherence)
@@ -55,15 +57,15 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         void FixedUpdate()
         {
             var neighbors = Group.CollectResponsesInTheFieldOfView(gameObject);
-            sddm.NumberOfResponsesA = neighbors.Count(n => Math.Abs(n - 1) < 0.01);
-            sddm.NumberOfResponsesB = neighbors.Count(n => Math.Abs(n + 1) < 0.01);
+            sddm.NumberOfResponsesA = neighbors.Count(n => Mathf.Abs(n - 1) < 0.01);
+            sddm.NumberOfResponsesB = neighbors.Count(n => Mathf.Abs(n + 1) < 0.01);
             sddm.EstimateCumulativeEvidence();
 
             ActionHistory.Add(sddm.CumulativeEvidence);
             
             if (Decision != 0) return;
             
-            Decision = Math.Abs(sddm.CumulativeEvidence) >= DecisionThreshold ? Math.Sign(sddm.CumulativeEvidence) : 0;
+            Decision = Mathf.Abs(sddm.CumulativeEvidence) >= DecisionThreshold ? Mathf.Sign(sddm.CumulativeEvidence) : 0;
             sddm.Decision = Decision;
 
             Action.PerformAction(Decision);
