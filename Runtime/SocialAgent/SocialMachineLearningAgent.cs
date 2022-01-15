@@ -30,7 +30,6 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         
         public List<float> ActionHistory { get; set; } = new List<float>();
         
-        public float Coherence { get; set; }
         
         void Awake()
         {
@@ -47,13 +46,14 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
             if (hideCoherenceInput)
                 sensor.AddObservation(0);
             else
-                sensor.AddObservation(Utils.Utils.SampleGaussian(Coherence, noiseLevelSensors));
+                sensor.AddObservation(Utils.Utils.SampleGaussian(Group.Task.Coherence, noiseLevelSensors));
             var neighbors = Group.CollectResponsesInTheFieldOfView(gameObject);
             foreach (var n in neighbors) sensor.AddObservation(n);
         }
 
         public override void OnActionReceived(ActionBuffers actionBuffers)
         {
+            var coherence = Group.Task.Coherence;
             if (Decision == 0)
             {
                 var newDecision = actionBuffers.ContinuousActions[0];
@@ -65,9 +65,9 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
 
                 AddReward(-1f / Group.MaxEnvironmentSteps);
 
-                if (Coherence < 0 && Decision < 0 || Coherence > 0 && Decision > 0)
+                if (coherence < 0 && Decision < 0 || coherence > 0 && Decision > 0)
                     AddReward(1.0f);
-                else if (Coherence < 0 && Decision > 0 || Coherence > 0 && Decision < 0)
+                else if (coherence < 0 && Decision > 0 || coherence > 0 && Decision < 0)
                     AddReward(-1.0f);
 
                 ActionHistory.Add(newDecision);

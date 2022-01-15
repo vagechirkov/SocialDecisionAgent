@@ -12,6 +12,7 @@ namespace SocialDecisionAgent.Runtime.Group
             InitializeAgentGroup();
 
             _mlAgentGroup = new SimpleMultiAgentGroup();
+            
             foreach (var agent in Agents)
             {
                 if (agent is Agent mlAgent)
@@ -27,6 +28,7 @@ namespace SocialDecisionAgent.Runtime.Group
             if (resetTimer >= MaxEnvironmentSteps)
             {
                 _mlAgentGroup.GroupEpisodeInterrupted();
+                GenerateTrial();
             }
         }
 

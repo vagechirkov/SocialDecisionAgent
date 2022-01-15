@@ -11,7 +11,7 @@ namespace SocialDecisionAgent.Runtime.Group
 
     {
         [field: Tooltip("Max Environment Steps")] [SerializeField]
-        int maxEnvironmentSteps = 500;
+        public int maxEnvironmentSteps = 500;
 
         [field: Tooltip("Task object")] [SerializeField] 
         GameObject task;
@@ -20,48 +20,35 @@ namespace SocialDecisionAgent.Runtime.Group
 
         [SerializeField] float fovAngle = 45.0f;
         
+        public int resetTimer;
+        
         public ITask Task { get; private set; }
 
-        public int MaxEnvironmentSteps { get; set; } = 1000;
+        public int MaxEnvironmentSteps { get; set; }
         
         public GameObject[] AgentGameObjects { get; private set; }
         public ISocialAgent[] Agents { get; private set; }
 
-        [HideInInspector] public int resetTimer;
-
-        void Awake()
+        public void InitializeAgentGroup()
         {
             Task = task.GetComponent<ITask>();
             MaxEnvironmentSteps = maxEnvironmentSteps;
-            InitializeAgentGroup();
-        }
-
-        public void InitializeAgentGroup()
-        {
+            
             AgentGameObjects = GameObject.FindGameObjectsWithTag("agent");
             Agents = AgentGameObjects.Select(a => a.GetComponent<ISocialAgent>()).ToArray();
             foreach (var agent in Agents) agent.Group = this;
-
-            ResetScene();
-
+            
             // TODO: Remove this
             GetComponent<plotAgentDecisions>().allAgents = Agents;
         }
-
-        void FixedUpdate()
-        {
-            resetTimer += 1;
-
-            if (resetTimer >= MaxEnvironmentSteps && MaxEnvironmentSteps > 0) ResetScene();
-        }
-
-        public void ResetScene()
+        
+        public virtual void GenerateTrial()
         {
             resetTimer = 0;
             Task.GenerateSample();
             foreach (var agent in Agents) agent.ResetDecisionModel(Task.Coherence);
         }
-
+        
         public float[] CollectResponsesInTheFieldOfView(GameObject agent)
         {
             var neighborDecisions = new List<float>();
@@ -82,7 +69,6 @@ namespace SocialDecisionAgent.Runtime.Group
                     neighborDecisions.Add(0f);
                 }
             }
-
             return neighborDecisions.ToArray();
         }
     }

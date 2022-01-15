@@ -18,7 +18,7 @@ namespace SocialDecisionAgent.Runtime.Group
         
         float[] CollectResponsesInTheFieldOfView(GameObject agent);
 
-        void ResetScene();
+        void GenerateTrial();
         
         
     }
