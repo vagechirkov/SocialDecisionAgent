@@ -33,7 +33,7 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
                 var squarePositionY = parentPosition.y + width * i + width / 2;
                 var squarePositionZ = parentPosition.z + width * j + width / 2;
 
-                square.transform.position = new Vector3(0, squarePositionY, squarePositionZ);
+                square.transform.localPosition = new Vector3(0, squarePositionY, squarePositionZ);
 
                 _squares.Add(square);
                 _squareScripts.Add(squareScript);
