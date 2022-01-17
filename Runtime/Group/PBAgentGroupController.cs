@@ -50,7 +50,7 @@ namespace SocialDecisionAgent.Runtime.Group
                 if (agent is PrecomputedBehaviorAgent pbAgent)
                 {
                     // TODO: read decisions from file
-                    pbAgent.Decision = 1;
+                    pbAgent.Decision = Random.value - 0.5f;
                     var reactionTime = float.Parse(
                         BehaviourData[TrialCount][i], CultureInfo.InvariantCulture.NumberFormat);
                     pbAgent.StartCoroutine(pbAgent.WaitAndResponse(reactionTime));
