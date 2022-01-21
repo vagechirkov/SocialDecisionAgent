@@ -14,6 +14,8 @@ namespace SocialDecisionAgent.Runtime.SocialAgent.Action
 
         public void PerformAction(float agentDecision)
         {
+            agentDecision = Mathf.Sign(agentDecision);
+            
             agentMaterial.color = agentDecision switch
             {
                 -1 => Color.red,

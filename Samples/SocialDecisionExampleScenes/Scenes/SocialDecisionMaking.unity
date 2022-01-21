@@ -578,6 +578,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PBAgentsGroup
       objectReference: {fileID: 0}
+    - target: {fileID: 890683589865648329, guid: a6eb75d040b4b4e14b1e970d07f248b5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5697760610869247305, guid: a6eb75d040b4b4e14b1e970d07f248b5, type: 3}
       propertyPath: task
       value: 
@@ -907,7 +911,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7949790620876543880, guid: d898dddedcd414ef8bcc09d859ab74ba, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.7
       objectReference: {fileID: 0}
     - target: {fileID: 7949790620876543880, guid: d898dddedcd414ef8bcc09d859ab74ba, type: 3}
       propertyPath: m_LocalPosition.z
