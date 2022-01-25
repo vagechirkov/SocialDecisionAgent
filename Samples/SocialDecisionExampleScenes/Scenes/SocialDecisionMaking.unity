@@ -279,6 +279,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7124638906963793352, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8632209344556771738, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -329,7 +333,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8632209344556771739, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8818790850040163657, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: task
@@ -344,6 +348,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7445466825022961631, guid: ef697327e7e8845ac92f64244bd42d31, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8234714676641844108, guid: ef697327e7e8845ac92f64244bd42d31, type: 3}
       propertyPath: m_Name
       value: SDDMAgentsGroup
@@ -580,7 +588,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 890683589865648329, guid: a6eb75d040b4b4e14b1e970d07f248b5, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5697760610869247305, guid: a6eb75d040b4b4e14b1e970d07f248b5, type: 3}
       propertyPath: task
@@ -911,7 +919,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7949790620876543880, guid: d898dddedcd414ef8bcc09d859ab74ba, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.7
+      value: -1.9
       objectReference: {fileID: 0}
     - target: {fileID: 7949790620876543880, guid: d898dddedcd414ef8bcc09d859ab74ba, type: 3}
       propertyPath: m_LocalPosition.z

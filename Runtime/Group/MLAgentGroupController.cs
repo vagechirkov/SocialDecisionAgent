@@ -9,7 +9,7 @@ namespace SocialDecisionAgent.Runtime.Group
         
         SimpleMultiAgentGroup _mlAgentGroup;
         
-        void Awake()
+        void Start()
         {
             InitializeAgentGroup();
 
@@ -30,7 +30,7 @@ namespace SocialDecisionAgent.Runtime.Group
         
         void FixedUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.Space) && !IsTrialRunning)
+            if (!IsTrialRunning) // Input.GetKeyDown(KeyCode.Space)
             {
                 IsTrialRunning = true;
                 GenerateTrial();
@@ -39,6 +39,10 @@ namespace SocialDecisionAgent.Runtime.Group
             if (IsTrialRunning)
             {
                 resetTimer += 1;
+                foreach (var agent in Agents)
+                    if (agent is Agent mlAgent)
+                        mlAgent.RequestDecision();
+                
                 if (resetTimer >= MaxEnvironmentSteps)
                 {
                     _mlAgentGroup.GroupEpisodeInterrupted();

@@ -22,7 +22,7 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         
         public float Decision { get; set; }
 
-        public float DecisionThreshold { get; set; }
+        public float DecisionThreshold { get; set; } = 10f;
 
         public IAgentGroup Group { get; set; }
 
@@ -48,6 +48,7 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
 
         public override void OnActionReceived(ActionBuffers actionBuffers)
         {
+            // FIXME: this is not the right way to do it
             var coherence = Group.Task.Coherence;
             if (Decision == 0)
             {
