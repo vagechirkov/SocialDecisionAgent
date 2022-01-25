@@ -14,15 +14,11 @@ namespace SocialDecisionAgent.Runtime.Group
             InitializeAgentGroup();
 
             _mlAgentGroup = new SimpleMultiAgentGroup();
-            
+
             foreach (var agent in Agents)
-            {
                 if (agent is Agent mlAgent)
-                {
                     _mlAgentGroup.RegisterAgent(mlAgent);
-                }
-            }
-            
+
             var plotter = GetComponent<plotAgentDecisions>();
             if(plotter != null) 
                 plotter.allAgents = Agents;

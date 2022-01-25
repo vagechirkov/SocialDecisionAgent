@@ -22,18 +22,23 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         
         public float Decision { get; set; }
 
-        public float DecisionThreshold { get; set; } = 10f;
+        public float DecisionThreshold { get; set; } = 1f;
 
         public IAgentGroup Group { get; set; }
 
         public IAgentAction Action { get; set; }
         
         public List<float> ActionHistory { get; set; } = new List<float>();
-        
+
+        public void Awake()
+        {
+            Action = GetComponentInChildren<IAgentAction>();
+        }
 
         public void ResetDecisionModel(float coherence)
         {
             Decision = 0;
+            Action.ResetAction();
         }
 
         public override void CollectObservations(VectorSensor sensor)
@@ -61,9 +66,9 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
 
                 AddReward(-1f / Group.MaxEnvironmentSteps);
 
-                if (coherence < 0 && Decision < 0 || coherence > 0 && Decision > 0)
+                if (coherence < 0.5 && Decision < 0 || coherence > 0.5 && Decision > 0)
                     AddReward(1.0f);
-                else if (coherence < 0 && Decision > 0 || coherence > 0 && Decision < 0)
+                else if (coherence < 0.5 && Decision > 0 || coherence > 0.5 && Decision < 0)
                     AddReward(-1.0f);
 
                 ActionHistory.Add(newDecision);
