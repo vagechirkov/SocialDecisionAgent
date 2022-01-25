@@ -44,8 +44,10 @@ python -m pip install mlagents==0.27.0
 ### Training Process
 ```bash
 conda activate mlagents  
-mlagents-learn --run-id=test 
+mlagents-learn Assets/SocialDecisionAgent/Samples/SocialDecisionExampleScenes/AgentBrains/training_params.yml --run-id=test 
 ```
+
+Training [parameters](https://github.com/Unity-Technologies/ml-agents/blob/release_17_docs/docs/Training-Configuration-File.md#common-trainer-configurations) and an example [config files](https://github.com/Unity-Technologies/ml-agents/tree/main/config).
 
 ### View training inforation
 ```bash

@@ -279,73 +279,241 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 851696035632183697, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: hideCoherenceInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 878149854719809272, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 47ced0bf6f1ea4e17b170d0f05039fe6, type: 3}
+    - target: {fileID: 878149854719809272, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 878149854719809272, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 12
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1757411855556169832, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 47ced0bf6f1ea4e17b170d0f05039fe6, type: 3}
+    - target: {fileID: 1757411855556169832, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1757411855556169832, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 12
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 2798656581459936999, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: hideCoherenceInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2969471994087891405, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: hideCoherenceInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2970165541233113434, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 47ced0bf6f1ea4e17b170d0f05039fe6, type: 3}
+    - target: {fileID: 2970165541233113434, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2970165541233113434, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 12
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 2995484592723570486, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: hideCoherenceInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3426980655911894269, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 47ced0bf6f1ea4e17b170d0f05039fe6, type: 3}
+    - target: {fileID: 3426980655911894269, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3426980655911894269, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 12
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3476111772308968877, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 47ced0bf6f1ea4e17b170d0f05039fe6, type: 3}
+    - target: {fileID: 3476111772308968877, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3476111772308968877, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 12
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829951244308767847, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 47ced0bf6f1ea4e17b170d0f05039fe6, type: 3}
+    - target: {fileID: 3829951244308767847, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3829951244308767847, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 12
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3869606180856282922, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 47ced0bf6f1ea4e17b170d0f05039fe6, type: 3}
+    - target: {fileID: 3869606180856282922, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3869606180856282922, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 12
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3982136244286888609, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: hideCoherenceInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4836040935500786065, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 47ced0bf6f1ea4e17b170d0f05039fe6, type: 3}
+    - target: {fileID: 4836040935500786065, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4836040935500786065, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 12
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6300718588101794407, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: hideCoherenceInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6478046920219842525, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 47ced0bf6f1ea4e17b170d0f05039fe6, type: 3}
+    - target: {fileID: 6478046920219842525, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6478046920219842525, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 12
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6672032234269030688, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: hideCoherenceInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6783205716801934660, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: hideCoherenceInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6786535910290310687, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 47ced0bf6f1ea4e17b170d0f05039fe6, type: 3}
+    - target: {fileID: 6786535910290310687, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6786535910290310687, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 12
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6833747342252174435, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 47ced0bf6f1ea4e17b170d0f05039fe6, type: 3}
+    - target: {fileID: 6833747342252174435, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6833747342252174435, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 12
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7124638906963793352, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7408819366502780382, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: hideCoherenceInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8000155779223011566, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 47ced0bf6f1ea4e17b170d0f05039fe6, type: 3}
+    - target: {fileID: 8000155779223011566, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8000155779223011566, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 12
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 8013518977923807163, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 47ced0bf6f1ea4e17b170d0f05039fe6, type: 3}
+    - target: {fileID: 8013518977923807163, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8013518977923807163, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 12
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 8034296148021509968, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 47ced0bf6f1ea4e17b170d0f05039fe6, type: 3}
+    - target: {fileID: 8034296148021509968, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8034296148021509968, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 12
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 8053661156596776429, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: hideCoherenceInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8563578862301207334, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 47ced0bf6f1ea4e17b170d0f05039fe6, type: 3}
+    - target: {fileID: 8563578862301207334, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8563578862301207334, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 12
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 8602986856001409423, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 47ced0bf6f1ea4e17b170d0f05039fe6, type: 3}
+    - target: {fileID: 8602986856001409423, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8602986856001409423, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 12
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 8632209344556771738, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_RootOrder
@@ -399,14 +567,34 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8638555279198941452, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: hideCoherenceInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8768247608196536553, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 47ced0bf6f1ea4e17b170d0f05039fe6, type: 3}
+    - target: {fileID: 8768247608196536553, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8768247608196536553, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 12
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 8818790850040163657, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: task
       value: 
       objectReference: {fileID: 1061699488}
+    - target: {fileID: 8818790850040163657, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: maxEnvironmentSteps
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842225626371779017, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
+      propertyPath: hideCoherenceInput
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
 --- !u!1001 &704180063
@@ -1031,7 +1219,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7949790620876543883, guid: d898dddedcd414ef8bcc09d859ab74ba, type: 3}
       propertyPath: coherence
-      value: 0.7
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7949790620876543883, guid: d898dddedcd414ef8bcc09d859ab74ba, type: 3}
       propertyPath: squarePrefab
@@ -1039,7 +1227,7 @@ PrefabInstance:
       objectReference: {fileID: 2814372130521531066, guid: 702eb33ac43094a9386b6870a0070aba, type: 3}
     - target: {fileID: 7949790620876543883, guid: d898dddedcd414ef8bcc09d859ab74ba, type: 3}
       propertyPath: fixedCoherence
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d898dddedcd414ef8bcc09d859ab74ba, type: 3}
