@@ -44,7 +44,7 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         public override void CollectObservations(VectorSensor sensor)
         {
             if (hideCoherenceInput)
-                sensor.AddObservation(0);
+                sensor.AddObservation(transform.position.x);
             else
                 sensor.AddObservation(Utils.Utils.SampleGaussian(Group.Task.Coherence, noiseLevelSensors));
             var neighbors = Group.CollectResponsesInTheFieldOfView(gameObject);
