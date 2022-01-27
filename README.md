@@ -31,6 +31,14 @@ This repository uses [GitLFS](https://git-lfs.github.com/). Make sure that you h
 
 For more details see [1](#1).
 
+
+![scene view](Documentation~/sddm_1.gif)
+
+![scene view](Documentation~/sddm_2.gif)
+
+
+For more details about the task see [2](#2) and [3](#3).
+
 ## Machine Learning Agent training
 More information [here](https://github.com/Unity-Technologies/ml-agents/blob/release_18_docs/docs/Readme.md).
 
@@ -62,3 +70,6 @@ Tump, A. N., Pleskac, T. J., & Kurvers, R. H. J. M. (2020). Wise or mad crowds? 
 
 <a id="2">[2]</a>
 Shinn, M., Ehrlich, D. B., Lee, D., Murray, J. D., & Seo, H. (2020). Confluence of Timing and Reward Biases in Perceptual Decision-Making Dynamics. Journal of Neuroscience, 40(38), 7326–7342. https://doi.org/10.1523/JNEUROSCI.0544-20.2020
+
+<a id="3">[3]</a>
+Germar, M., Schlemmer, A., Krug, K., Voss, A., & Mojzisch, A. (2014). Social Influence and Perceptual Decision Making: A Diffusion Model Analysis. Personality and Social Psychology Bulletin, 15.
