@@ -32,10 +32,9 @@ namespace SocialDecisionAgent.Runtime.SocialAgent.Model
         // Task
         public float Coherence { get; set; }
         
-        
         public void ResetModel(float coherence)
         {
-            Coherence = coherence;
+            Coherence = (coherence - 0.5f) * 2f; // from [0, 1] to [-1, 1]
             Decision = 0;
             NumberOfResponsesA = 0;
             NumberOfResponsesB = 0;

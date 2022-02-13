@@ -32,6 +32,7 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         public void ResetDecisionModel(float coherence)
         {
             Decision = 0;
+            actionTaken = false;
             Model.ResetModel(coherence);
             Action.ResetAction();
         }
