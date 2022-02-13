@@ -1,3 +1,4 @@
+using System.Collections;
 using SocialDecisionAgent.Runtime.Utils;
 using UnityEngine;
 
@@ -12,26 +13,18 @@ namespace SocialDecisionAgent.Runtime.Group
             if(plotter != null) 
                 plotter.allAgents = Agents;
         }
-        
-        void FixedUpdate()
+
+        public IEnumerator RunTrial()
         {
-            if (Input.GetKeyDown(KeyCode.Space) && !IsTrialRunning)
+            GenerateTrial();
+            IsTrialRunning = true;
+            while (resetTimer < MaxEnvironmentSteps)
             {
-                IsTrialRunning = true;
-                GenerateTrial();
+                resetTimer++;
+                yield return new WaitForFixedUpdate();
             }
-            
-            if (IsTrialRunning)
-            {
-                resetTimer += 1;
-                if (resetTimer >= MaxEnvironmentSteps)
-                {
-                    GenerateTrial();
-                    IsTrialRunning = false;
-                }
-            }
+            IsTrialRunning = false;
         }
-        
         
     }
 }

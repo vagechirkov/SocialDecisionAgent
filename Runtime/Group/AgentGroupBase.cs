@@ -27,6 +27,7 @@ namespace SocialDecisionAgent.Runtime.Group
         public int MaxEnvironmentSteps { get; set; }
         
         public GameObject[] AgentGameObjects { get; private set; }
+        
         public ISocialAgent[] Agents { get; private set; }
         
         public bool IsTrialRunning { get; set; }
