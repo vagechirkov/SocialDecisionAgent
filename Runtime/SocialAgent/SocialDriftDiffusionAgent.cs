@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using SocialDecisionAgent.Runtime.Group;
 using SocialDecisionAgent.Runtime.SocialAgent.Action;
 using SocialDecisionAgent.Runtime.SocialAgent.Model;
@@ -19,38 +18,21 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         
         public List<float> ActionHistory { get; set; } = new List<float>();
 
-        // Social Drift Diffusion model
-        SocialDriftDiffusionModel sddm { get; set; }
+        // Decision-making model
+        IAgentModel Model { get; set; }
         
-        // social drift diffusion model parameters
-        [Tooltip("Scaling parameter of the social drift rate")] [SerializeField]
-        float socialDriftInfluence = 0.36f;
-
-        [Tooltip("Power of the majority size")] [SerializeField]
-        float socialDriftQ = 0.66f;
-        
-        [Tooltip("Decision threshold for the social drift diffusion model")] [SerializeField]
-        float threshold = 1f;
+        bool actionTaken = false;
         
         void Awake()
         {
             Action = GetComponent<IAgentAction>();
-            DecisionThreshold = threshold;
+            Model = GetComponent<IAgentModel>();
         }
 
         public void ResetDecisionModel(float coherence)
         {
-            sddm = new SocialDriftDiffusionModel
-            {
-                ChoiceThreshold = DecisionThreshold,
-                NumberOfResponsesA = 0,
-                NumberOfResponsesB = 0,
-                SocialDriftInfluence = socialDriftInfluence,
-                SocialDriftQ = socialDriftQ,
-                CumulativeEvidence = 0
-            };
             Decision = 0;
-            sddm.Coherence = coherence;
+            Model.ResetModel(coherence);
             Action.ResetAction();
         }
 
@@ -58,21 +40,17 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         {
             if (Group.IsTrialRunning)
             {
-                var neighbors = Group.CollectResponsesInTheFieldOfView(gameObject);
-                sddm.NumberOfResponsesA = neighbors.Count(n => Mathf.Abs(n - 1) < 0.01);
-                sddm.NumberOfResponsesB = neighbors.Count(n => Mathf.Abs(n + 1) < 0.01);
-                sddm.EstimateCumulativeEvidence();
-
-                ActionHistory.Add(sddm.CumulativeEvidence);
-
-                if (Decision != 0) return;
-
-                Decision = Mathf.Abs(sddm.CumulativeEvidence) >= DecisionThreshold
-                    ? Mathf.Sign(sddm.CumulativeEvidence)
-                    : 0;
-                sddm.Decision = Decision;
-
-                Action.PerformAction(Decision);
+                Model.UpdateModel(Group.CollectResponsesInTheFieldOfView(gameObject));
+                ActionHistory.Add(Model.CumulativeEvidence);
+                if (actionTaken) return;
+                
+                if (Model.Decision != 0)
+                {
+                    Decision = Model.Decision;
+                    actionTaken = true;
+                    Action.PerformAction(Model.Decision);
+                }
+                
             }
         }
     }

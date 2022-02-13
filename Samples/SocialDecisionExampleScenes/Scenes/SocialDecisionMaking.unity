@@ -606,6 +606,7 @@ GameObject:
   - component: {fileID: 1398541713}
   - component: {fileID: 1398541712}
   - component: {fileID: 1398541711}
+  - component: {fileID: 1398541716}
   m_Layer: 0
   m_Name: Capsule (2)
   m_TagString: agent
@@ -639,9 +640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6372718e2eb0e4e26adf91af5af68363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  socialDriftInfluence: 0.36
-  socialDriftQ: 0.66
-  threshold: 1
 --- !u!114 &1398541712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -717,6 +715,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1398541709}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1398541716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1398541709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1fbe3e9d7a4465b89c3fa5921cb9683, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  threshold: 1
+  socialDriftInfluence: 0.36
+  socialDriftQ: 0.66
 --- !u!1 &1413827080
 GameObject:
   m_ObjectHideFlags: 0
@@ -731,6 +744,7 @@ GameObject:
   - component: {fileID: 1413827084}
   - component: {fileID: 1413827083}
   - component: {fileID: 1413827082}
+  - component: {fileID: 1413827087}
   m_Layer: 0
   m_Name: Capsule (1)
   m_TagString: agent
@@ -764,9 +778,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6372718e2eb0e4e26adf91af5af68363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  socialDriftInfluence: 0.36
-  socialDriftQ: 0.66
-  threshold: 1
 --- !u!114 &1413827083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -842,6 +853,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1413827080}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1413827087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413827080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1fbe3e9d7a4465b89c3fa5921cb9683, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  threshold: 1
+  socialDriftInfluence: 0.36
+  socialDriftQ: 0.66
 --- !u!4 &1424283016 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1784344915733699301, guid: 3fb97377b9709416aa3c3c4058228b18, type: 3}
@@ -1276,6 +1302,7 @@ GameObject:
   - component: {fileID: 6054974856570448735}
   - component: {fileID: 5138705487421443072}
   - component: {fileID: 2738367532505267811}
+  - component: {fileID: 2738367532505267812}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: agent
@@ -1295,9 +1322,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6372718e2eb0e4e26adf91af5af68363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2738367532505267812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2738367532505267810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1fbe3e9d7a4465b89c3fa5921cb9683, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  threshold: 1
   socialDriftInfluence: 0.36
   socialDriftQ: 0.66
-  threshold: 1
 --- !u!136 &3034400110098322814
 CapsuleCollider:
   m_ObjectHideFlags: 0
