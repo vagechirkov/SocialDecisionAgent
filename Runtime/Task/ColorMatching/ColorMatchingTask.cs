@@ -13,8 +13,6 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
         
         [SerializeField] float coherence = 0.5f;
 
-        readonly List<GameObject> _squares = new List<GameObject>();
-
         readonly List<ColorMatchingSquare> _squareScripts = new List<ColorMatchingSquare>();
 
         public float Coherence { get; set; }
@@ -34,8 +32,7 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
                 var squarePositionZ = parentPosition.z + width * j + width / 2;
 
                 square.transform.localPosition = new Vector3(0, squarePositionY, squarePositionZ);
-
-                _squares.Add(square);
+                
                 _squareScripts.Add(squareScript);
             }
         }
@@ -43,11 +40,8 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
 
         public void GenerateSample()
         {
-            if (!fixedCoherence)
-                Coherence = Random.value;
-            else
-                Coherence = coherence;
-            
+            Coherence = !fixedCoherence ? Random.value : coherence;
+
             foreach (var square in _squareScripts) square.SetColor(Random.value > Coherence ? Color.red : Color.green);
         }
     }

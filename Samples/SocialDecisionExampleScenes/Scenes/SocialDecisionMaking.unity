@@ -629,7 +629,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8632209344556771739, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8638555279198941452, guid: 1b24c8169428648b482660e50a46b9c9, type: 3}
       propertyPath: hideCoherenceInput
@@ -682,7 +682,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8234714676641844108, guid: ef697327e7e8845ac92f64244bd42d31, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8234714676641844109, guid: ef697327e7e8845ac92f64244bd42d31, type: 3}
       propertyPath: m_RootOrder
