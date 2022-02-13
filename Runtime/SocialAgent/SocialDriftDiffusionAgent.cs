@@ -34,7 +34,7 @@ namespace SocialDecisionAgent.Runtime.SocialAgent
         
         void Awake()
         {
-            Action = GetComponentInChildren<IAgentAction>();
+            Action = GetComponent<IAgentAction>();
             DecisionThreshold = threshold;
         }
 
