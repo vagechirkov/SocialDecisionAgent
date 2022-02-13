@@ -7,12 +7,9 @@ public class ExperimentManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(!group.IsTrialRunning & Input.GetKeyDown(KeyCode.Space))
         {
-
             StartCoroutine(group.RunTrial());
-
-
         }
     }
 }
