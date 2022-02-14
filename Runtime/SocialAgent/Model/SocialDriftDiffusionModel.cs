@@ -15,6 +15,8 @@ namespace SocialDecisionAgent.Runtime.SocialAgent.Model
 
         // Personal Drift
         float PersonalDrift { get; set; }
+        
+        [SerializeField] public float noiseScaler = 1f;
 
         // Social Drift
         float SocialDrift { get; set; }
@@ -24,7 +26,7 @@ namespace SocialDecisionAgent.Runtime.SocialAgent.Model
         int NumberOfResponsesB { get; set; }
         
         [Tooltip("Scaling parameter of the social drift rate")] [SerializeField]
-        float socialDriftInfluence = 0.36f;
+        public float socialDriftInfluence = 0.36f;
 
         [Tooltip("Power of the majority size")] [SerializeField]
         float socialDriftQ = 0.66f;
@@ -76,7 +78,7 @@ namespace SocialDecisionAgent.Runtime.SocialAgent.Model
         // TODO: This is not the correct way to estimate personal drift rate.
         float EstimatePersonalDriftRate(float coherence)
         {
-            return coherence + Utils.Utils.SampleGaussian( 0, 1);
+            return coherence/noiseScaler + Utils.Utils.SampleGaussian( 0, 1)*noiseScaler;
         }
     }
 }
