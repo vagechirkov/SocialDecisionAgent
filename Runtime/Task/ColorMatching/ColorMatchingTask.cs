@@ -11,7 +11,7 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
 
         [SerializeField] bool fixedCoherence;
         
-        [SerializeField] float coherence = 0.5f;
+        [SerializeField] public float coherence = 0.5f;
 
         readonly List<ColorMatchingSquare> _squareScripts = new List<ColorMatchingSquare>();
 
