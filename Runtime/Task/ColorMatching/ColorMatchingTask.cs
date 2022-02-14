@@ -44,5 +44,11 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
 
             foreach (var square in _squareScripts) square.SetColor(Random.value > Coherence ? Color.red : Color.green);
         }
+        
+        public void ResetColor()
+        {
+            foreach (var square in _squareScripts) square.SetColor(Color.blue);
+        }
+        
     }
 }
