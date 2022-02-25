@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using SocialDecisionAgent.Runtime.Task.ColorMatching;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         [SerializeField] int nPixelsHalf = 64;
 
         [Tooltip("The number of pixel rows revealed per second")]
-        [SerializeField] int speed = 5;
+        [SerializeField] int speed = 30;
         
         readonly Color32 _blue = new Color32(0, 0, 255, 255);
         readonly Color32 _orange = new Color32(255, 128, 0, 255);
@@ -30,17 +31,40 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         
         public void GenerateSample()
         {
-            //From random values to colors
-            Color[] colorMap = new Color[nPixelsHalf * nPixelsHalf];
-
-            for (int x = 0; x < nPixelsHalf * nPixelsHalf; x++)
+            StartCoroutine(DrawSquareRows(speed));
+        }
+        
+        // Update the task with the `speed` rows per second
+        IEnumerator DrawSquareRows(int rowPerSecond)
+        {
+            var colorMaps = new Color[nPixelsHalf][];
+            
+            var t = Time.time;
+            for (var iRow = 0; iRow < nPixelsHalf; iRow++)
             {
-                //The colors are gray scale
-                colorMap[x] = Color.Lerp(Color.black, Color.white, Random.value);
-            }
+                var colorMap = new Color[nPixelsHalf * nPixelsHalf * 4];
+                for(int i = 0; i < nPixelsHalf*2; i++){
+                    for(int j = 0; j < nPixelsHalf*2; j++){
+                    
+                        var row = Mathf.Max(Mathf.Abs(i), Mathf.Abs(j));
+                        if (row <= iRow)
+                            colorMap[i*nPixelsHalf*2+j] = Random.value > (Coherence + 1) / 2 ? _orange : _blue;
+                        else
+                            colorMap[i*nPixelsHalf*2+j] = Color.white;
+                    
+                    }
+                }
 
+                CreateAndApplyTexture(colorMap);
+                yield return new WaitForSeconds(1f / rowPerSecond);
+            }
+            Debug.Log(t - Time.time);
+        }
+
+        void CreateAndApplyTexture(Color[] colorMap)
+        {
             //Add the colors to the texture
-            Texture2D texture = new Texture2D(nPixelsHalf, nPixelsHalf);
+            Texture2D texture = new Texture2D(nPixelsHalf*2, nPixelsHalf*2);
 
             texture.SetPixels(colorMap);
 
