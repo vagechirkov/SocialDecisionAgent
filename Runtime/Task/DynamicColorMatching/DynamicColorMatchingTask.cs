@@ -77,11 +77,13 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
                 }
                 yield return new WaitForSeconds(rowPerSecond / 60f);
             }
+
+            ResetColor();
         }
 
         public void ResetColor()
         {
-            foreach (var square in _squareRows.SelectMany(s => s)) square.SetColor(Color.black);
+            foreach (var square in _squareRows.SelectMany(s => s)) square.SetColor(Color.white);
         }
         
     }
