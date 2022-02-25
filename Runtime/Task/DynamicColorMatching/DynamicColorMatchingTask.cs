@@ -22,13 +22,9 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         [Tooltip("The number of pixel rows revealed per second")]
         [SerializeField] int speed = 5;
         
-        // The list of pixels in the array of pixel rows (starting from the center of the square)
-        List<ColorMatchingSquare>[] _squareRows;
-        
         readonly Color32 _blue = new Color32(0, 0, 255, 255);
         readonly Color32 _orange = new Color32(255, 128, 0, 255);
         
-        [SerializeField] Material imageMaterial;
         
         [SerializeField] Image image;
         
@@ -56,7 +52,9 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             texture.Apply();
 
             //Add the texture to the material
-            image.overrideSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            image.overrideSprite = Sprite.Create(texture, 
+                new Rect(0, 0, texture.width, texture.height), 
+                new Vector2(0.5f, 0.5f));
         }
 
         void Update()
