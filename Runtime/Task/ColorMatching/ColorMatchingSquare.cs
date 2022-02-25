@@ -12,7 +12,7 @@ namespace SocialDecisionAgent.Runtime.Task.ColorMatching
         {
             SprRend = GetComponentInChildren<SpriteRenderer>();
             SprRend.size = new Vector2(width, width);
-            SprRend.color = Color.blue;
+            SprRend.color = Color.black;
         }
         
         public void SetColor(Color color)
