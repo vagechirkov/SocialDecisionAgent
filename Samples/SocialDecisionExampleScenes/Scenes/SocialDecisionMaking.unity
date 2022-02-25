@@ -365,6 +365,68 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1001 &150198251
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1047798892}
+    m_Modifications:
+    - target: {fileID: 7949790620876543880, guid: 8de971f714d914ecca6428776e8266d4, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949790620876543880, guid: 8de971f714d914ecca6428776e8266d4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949790620876543880, guid: 8de971f714d914ecca6428776e8266d4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949790620876543880, guid: 8de971f714d914ecca6428776e8266d4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949790620876543880, guid: 8de971f714d914ecca6428776e8266d4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949790620876543880, guid: 8de971f714d914ecca6428776e8266d4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949790620876543880, guid: 8de971f714d914ecca6428776e8266d4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949790620876543880, guid: 8de971f714d914ecca6428776e8266d4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949790620876543880, guid: 8de971f714d914ecca6428776e8266d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949790620876543880, guid: 8de971f714d914ecca6428776e8266d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949790620876543880, guid: 8de971f714d914ecca6428776e8266d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949790620876543881, guid: 8de971f714d914ecca6428776e8266d4, type: 3}
+      propertyPath: m_Name
+      value: DynamicColorMatching
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8de971f714d914ecca6428776e8266d4, type: 3}
+--- !u!4 &150198252 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7949790620876543880, guid: 8de971f714d914ecca6428776e8266d4, type: 3}
+  m_PrefabInstance: {fileID: 150198251}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &255077123
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,6 +602,7 @@ Transform:
   - {fileID: 8756310735631992973}
   - {fileID: 1424283016}
   - {fileID: 923429089}
+  - {fileID: 150198252}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -728,6 +791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   threshold: 1
+  noiseScaler: 1
   socialDriftInfluence: 0.36
   socialDriftQ: 0.66
 --- !u!1 &1413827080
@@ -866,6 +930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   threshold: 1
+  noiseScaler: 1
   socialDriftInfluence: 0.36
   socialDriftQ: 0.66
 --- !u!4 &1424283016 stripped
@@ -1335,6 +1400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   threshold: 1
+  noiseScaler: 1
   socialDriftInfluence: 0.36
   socialDriftQ: 0.66
 --- !u!136 &3034400110098322814
@@ -1686,7 +1752,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7949790620876543881, guid: d898dddedcd414ef8bcc09d859ab74ba, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7949790620876543883, guid: d898dddedcd414ef8bcc09d859ab74ba, type: 3}
       propertyPath: coherence

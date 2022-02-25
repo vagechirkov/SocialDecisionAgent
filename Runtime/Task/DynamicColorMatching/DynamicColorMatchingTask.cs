@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using SocialDecisionAgent.Runtime.Task.ColorMatching;
 using UnityEngine;
 
 namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
@@ -24,7 +25,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         [SerializeField] int speed = 5;
         
         // The list of pixels in the list of pixel rows (starting from the center of the square)
-        List<List<ColorMatchingSquare>> _squareRows = new List<List<ColorMatchingSquare>>();
+        List<ColorMatchingSquare>[] _squareRows;
         
         readonly Color32 _blue = new Color32(0, 0, 255, 255);
         readonly Color32 _orange = new Color32(255, 128, 0, 255);
@@ -33,6 +34,8 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         void Awake()
         {
             var parentPosition = transform.position;
+            
+            _squareRows = new List<ColorMatchingSquare>[nPixelsHalf];
 
             for (var i = -nPixelsHalf; i < nPixelsHalf; i++)
             for (var j = -nPixelsHalf; j < nPixelsHalf; j++)
@@ -62,7 +65,9 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         {
             foreach (var squares in _squareRows)
             {
-                foreach (var square in squares) square.SetColor(Random.value > Coherence ? _orange : _blue);
+                // Coherence values are -1 = orange, 1 = blue
+                var color = Random.value > (Coherence + 1) / 2 ? _orange : _blue;
+                foreach (var square in squares) square.SetColor(color);
                 yield return new WaitForSeconds(rowPerSecond / 60f);
             }
         }
