@@ -28,6 +28,8 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         readonly Color32 _blue = new Color32(0, 0, 255, 255);
         readonly Color32 _orange = new Color32(255, 128, 0, 255);
         
+        [SerializeField] Material imageMaterial;
+        
         [SerializeField] Image image;
         
         public void GenerateSample()
@@ -54,7 +56,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             texture.Apply();
 
             //Add the texture to the material
-            image.material.mainTexture = texture;
+            image.overrideSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
         }
 
         void Update()
