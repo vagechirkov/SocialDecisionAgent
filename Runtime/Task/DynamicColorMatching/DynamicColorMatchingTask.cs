@@ -24,7 +24,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 
         [SerializeField] int speed = 5;
         
-        // The list of pixels in the list of pixel rows (starting from the center of the square)
+        // The list of pixels in the array of pixel rows (starting from the center of the square)
         List<ColorMatchingSquare>[] _squareRows;
         
         readonly Color32 _blue = new Color32(0, 0, 255, 255);
@@ -35,7 +35,8 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         {
             var parentPosition = transform.position;
             
-            _squareRows = new List<ColorMatchingSquare>[nPixelsHalf];
+            // size of the array is equal to the number of half pixels in the row plus one
+            _squareRows = new List<ColorMatchingSquare>[nPixelsHalf + 1];
 
             for (var i = -nPixelsHalf; i < nPixelsHalf; i++)
             for (var j = -nPixelsHalf; j < nPixelsHalf; j++)
@@ -50,7 +51,10 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
                 square.transform.localPosition = new Vector3(0, squarePositionY, squarePositionZ);
                 
                 var row = Mathf.Max(Mathf.Abs(i), Mathf.Abs(j)); // distance from the center
-                _squareRows[row].Add(squareScript);
+                if (_squareRows[row] == null)
+                    _squareRows[row] = new List<ColorMatchingSquare> {squareScript};
+                else
+                    _squareRows[row].Add(squareScript);
             }
         }
 
