@@ -69,9 +69,12 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         {
             foreach (var squares in _squareRows)
             {
-                // Coherence values are -1 = orange, 1 = blue
-                var color = Random.value > (Coherence + 1) / 2 ? _orange : _blue;
-                foreach (var square in squares) square.SetColor(color);
+                foreach (var square in squares)
+                {
+                    // Coherence values are -1 = orange, 1 = blue
+                    var color = Random.value > (Coherence + 1) / 2 ? _orange : _blue;
+                    square.SetColor(color);
+                }
                 yield return new WaitForSeconds(rowPerSecond / 60f);
             }
         }
