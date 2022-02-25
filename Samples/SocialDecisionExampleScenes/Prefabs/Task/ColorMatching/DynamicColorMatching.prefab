@@ -45,4 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   squarePrefab: {fileID: 2814372130521531066, guid: 702eb33ac43094a9386b6870a0070aba, type: 3}
   nPixelsHalf: 64
-  speed: 5
+  speed: 30

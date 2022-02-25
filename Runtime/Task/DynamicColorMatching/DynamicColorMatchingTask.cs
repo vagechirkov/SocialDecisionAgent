@@ -22,6 +22,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         
         [SerializeField] int nPixelsHalf = 64;
 
+        [Tooltip("The number of pixel rows revealed per second")]
         [SerializeField] int speed = 5;
         
         // The list of pixels in the array of pixel rows (starting from the center of the square)
@@ -75,9 +76,8 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
                     var color = Random.value > (Coherence + 1) / 2 ? _orange : _blue;
                     square.SetColor(color);
                 }
-                yield return new WaitForSeconds(rowPerSecond / 60f);
+                yield return new WaitForSeconds(1f / rowPerSecond);
             }
-
             ResetColor();
         }
 
