@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using SocialDecisionAgent.Runtime.Task.ColorMatching;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 {
@@ -17,9 +16,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
     {
         // -1 = orange, 1 = blue
         public float Coherence { get; set; } = 0f;
-        
-        [SerializeField] GameObject squarePrefab;
-        
+
         [SerializeField] int nPixelsHalf = 64;
 
         [Tooltip("The number of pixel rows revealed per second")]
@@ -30,61 +27,35 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         
         readonly Color32 _blue = new Color32(0, 0, 255, 255);
         readonly Color32 _orange = new Color32(255, 128, 0, 255);
-
-        // Create the task
-        void Awake()
-        {
-            var parentPosition = transform.position;
-            
-            // size of the array is equal to the number of half pixels in the row plus one
-            _squareRows = new List<ColorMatchingSquare>[nPixelsHalf + 1];
-
-            for (var i = -nPixelsHalf; i < nPixelsHalf; i++)
-            for (var j = -nPixelsHalf; j < nPixelsHalf; j++)
-            {
-                var square = Instantiate(squarePrefab, transform);
-                var squareScript = square.GetComponent<ColorMatchingSquare>();
-
-                var width = squareScript.width;
-                var squarePositionY = parentPosition.y + width * i + width / 2;
-                var squarePositionZ = parentPosition.z + width * j + width / 2;
-
-                square.transform.localPosition = new Vector3(0, squarePositionY, squarePositionZ);
-                
-                var row = Mathf.Max(Mathf.Abs(i), Mathf.Abs(j)); // distance from the center
-                if (_squareRows[row] == null)
-                    _squareRows[row] = new List<ColorMatchingSquare> {squareScript};
-                else
-                    _squareRows[row].Add(squareScript);
-            }
-        }
-
-
+        
+        Vector3[] vertices;
+        
         public void GenerateSample()
         {
-            StartCoroutine(DrawSquareRows(speed));
-        }
-
-        // Update the task with the `speed` rows per second
-        IEnumerator DrawSquareRows(int rowPerSecond)
-        {
-            foreach (var squares in _squareRows)
-            {
-                foreach (var square in squares)
-                {
-                    // Coherence values are -1 = orange, 1 = blue
-                    var color = Random.value > (Coherence + 1) / 2 ? _orange : _blue;
-                    square.SetColor(color);
+            vertices = new Vector3[(nPixelsHalf + 1) * (nPixelsHalf + 1)];
+            for (int i = 0, y = 0; y <= nPixelsHalf; y++) {
+                for (int x = 0; x <= nPixelsHalf; x++, i++) {
+                    vertices[i] = new Vector3(0, x / 10f - 1f, y / 10f - 1f);
                 }
-                yield return new WaitForSeconds(1f / rowPerSecond);
             }
-            ResetColor();
         }
 
-        public void ResetColor()
+        void Update()
         {
-            foreach (var square in _squareRows.SelectMany(s => s)) square.SetColor(Color.white);
+            if(Input.GetKeyDown(KeyCode.C))
+            {
+                GenerateSample();
+            }
         }
         
+        void OnDrawGizmos () {
+            if (vertices == null) {
+                return;
+            }
+            Gizmos.color = Color.black;
+            for (int i = 0; i < vertices.Length; i++) {
+                Gizmos.DrawSphere(vertices[i], 0.1f);
+            }
+        }
     }
 }
