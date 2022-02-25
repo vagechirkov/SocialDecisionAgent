@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
@@ -18,8 +20,11 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         [SerializeField] GameObject squarePrefab;
         
         [SerializeField] int nPixelsHalf = 64;
+
+        [SerializeField] int speed = 5;
         
-        readonly List<ColorMatching.ColorMatchingSquare> _squareScripts = new List<ColorMatching.ColorMatchingSquare>();
+        // The list of pixels in the list of pixel rows (starting from the center of the square)
+        List<List<ColorMatchingSquare>> _squareRows = new List<List<ColorMatchingSquare>>();
         
         readonly Color32 _blue = new Color32(0, 0, 255, 255);
         readonly Color32 _orange = new Color32(255, 128, 0, 255);
@@ -33,7 +38,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             for (var j = -nPixelsHalf; j < nPixelsHalf; j++)
             {
                 var square = Instantiate(squarePrefab, transform);
-                var squareScript = square.GetComponent<ColorMatching.ColorMatchingSquare>();
+                var squareScript = square.GetComponent<ColorMatchingSquare>();
 
                 var width = squareScript.width;
                 var squarePositionY = parentPosition.y + width * i + width / 2;
@@ -41,19 +46,30 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 
                 square.transform.localPosition = new Vector3(0, squarePositionY, squarePositionZ);
                 
-                _squareScripts.Add(squareScript);
+                var row = Mathf.Max(Mathf.Abs(i), Mathf.Abs(j)); // distance from the center
+                _squareRows[row].Add(squareScript);
             }
         }
 
 
         public void GenerateSample()
         {
-            foreach (var square in _squareScripts) square.SetColor(Random.value > Coherence ? _orange : _blue);
+            StartCoroutine(DrawSquareRows(speed));
         }
-        
+
+        // Update the task with the `speed` rows per second
+        IEnumerator DrawSquareRows(int rowPerSecond)
+        {
+            foreach (var squares in _squareRows)
+            {
+                foreach (var square in squares) square.SetColor(Random.value > Coherence ? _orange : _blue);
+                yield return new WaitForSeconds(rowPerSecond / 60f);
+            }
+        }
+
         public void ResetColor()
         {
-            foreach (var square in _squareScripts) square.SetColor(Color.black);
+            foreach (var square in _squareRows.SelectMany(s => s)) square.SetColor(Color.black);
         }
         
     }
