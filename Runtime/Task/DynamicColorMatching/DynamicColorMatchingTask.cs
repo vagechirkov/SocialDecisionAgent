@@ -28,16 +28,33 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         readonly Color32 _blue = new Color32(0, 0, 255, 255);
         readonly Color32 _orange = new Color32(255, 128, 0, 255);
         
-        Vector3[] vertices;
+        [SerializeField] Image image;
         
         public void GenerateSample()
         {
-            vertices = new Vector3[(nPixelsHalf + 1) * (nPixelsHalf + 1)];
-            for (int i = 0, y = 0; y <= nPixelsHalf; y++) {
-                for (int x = 0; x <= nPixelsHalf; x++, i++) {
-                    vertices[i] = new Vector3(0, x / 10f - 1f, y / 10f - 1f);
-                }
+            //From random values to colors
+            Color[] colorMap = new Color[nPixelsHalf * nPixelsHalf];
+
+            for (int x = 0; x < nPixelsHalf * nPixelsHalf; x++)
+            {
+                //The colors are gray scale
+                colorMap[x] = Color.Lerp(Color.black, Color.white, Random.value);
             }
+
+            //Add the colors to the texture
+            Texture2D texture = new Texture2D(nPixelsHalf, nPixelsHalf);
+
+            texture.SetPixels(colorMap);
+
+            //Remove the blur from the texture
+            texture.filterMode = FilterMode.Point;
+
+            texture.wrapMode = TextureWrapMode.Clamp;
+
+            texture.Apply();
+
+            //Add the texture to the material
+            image.material.mainTexture = texture;
         }
 
         void Update()
@@ -48,14 +65,5 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             }
         }
         
-        void OnDrawGizmos () {
-            if (vertices == null) {
-                return;
-            }
-            Gizmos.color = Color.black;
-            for (int i = 0; i < vertices.Length; i++) {
-                Gizmos.DrawSphere(vertices[i], 0.1f);
-            }
-        }
     }
 }
