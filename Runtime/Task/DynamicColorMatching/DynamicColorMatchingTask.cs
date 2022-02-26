@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using SocialDecisionAgent.Runtime.Task.ColorMatching;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 {
@@ -28,7 +30,14 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         
         
         [SerializeField] Image image;
-        
+
+        Texture2D _texture2D;
+
+        void Start()
+        {
+            _texture2D = new Texture2D(nPixelsHalf*2, nPixelsHalf*2);
+        }
+
         public void GenerateSample()
         {
             StartCoroutine(DrawSquareRows(speed));
@@ -37,35 +46,46 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         // Update the task with the `speed` rows per second
         IEnumerator DrawSquareRows(int rowPerSecond)
         {
-            var colorMaps = new Color[nPixelsHalf][];
-            
+            var colorMaps = CreateColorMaps(nPixelsHalf);
             var t = Time.time;
-            for (var iRow = 0; iRow < nPixelsHalf; iRow++)
+            foreach (var cm in colorMaps)
             {
-                var colorMap = new Color[nPixelsHalf * nPixelsHalf * 4];
-                for(int i = 0; i < nPixelsHalf*2; i++){
-                    for(int j = 0; j < nPixelsHalf*2; j++){
-                    
-                        var row = Mathf.Max(Mathf.Abs(i), Mathf.Abs(j));
+                ApplyTexture(cm, _texture2D);
+                yield return new WaitForSeconds(1f / rowPerSecond);
+            }
+            Debug.Log(Time.time - t);
+        }
+
+        IEnumerable<Color[]> CreateColorMaps(int nPixels)
+        {
+            var colorMaps = new Color[nPixels][];
+
+            var width = nPixels * 2;
+            var height = nPixels * 2;
+
+            for (var iRow = 0; iRow < colorMaps.Length; iRow++)
+            {
+                var colorMap = new Color[width * height];
+                for (var i = 0; i < height; i++)
+                {
+                    for (var j = 0; j < width; j++)
+                    {
+                        var row = Mathf.Max(Mathf.Abs(i - nPixels), Mathf.Abs(j - nPixels));
                         if (row <= iRow)
-                            colorMap[i*nPixelsHalf*2+j] = Random.value > (Coherence + 1) / 2 ? _orange : _blue;
+                            colorMap[i * height + j] = Random.value > (Coherence + 1) / 2 ? _orange : _blue;
                         else
-                            colorMap[i*nPixelsHalf*2+j] = Color.white;
-                    
+                            colorMap[i * height + j] = Color.white;
                     }
                 }
 
-                CreateAndApplyTexture(colorMap);
-                yield return new WaitForSeconds(1f / rowPerSecond);
+                colorMaps[iRow] = colorMap;
             }
-            Debug.Log(t - Time.time);
+
+            return colorMaps;
         }
 
-        void CreateAndApplyTexture(Color[] colorMap)
+        void ApplyTexture(Color[] colorMap, Texture2D texture)
         {
-            //Add the colors to the texture
-            Texture2D texture = new Texture2D(nPixelsHalf*2, nPixelsHalf*2);
-
             texture.SetPixels(colorMap);
 
             //Remove the blur from the texture
