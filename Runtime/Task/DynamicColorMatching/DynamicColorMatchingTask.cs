@@ -58,24 +58,23 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 
         IEnumerable<Color[]> CreateColorMaps(int nPixels)
         {
-            var colorMaps = new Color[nPixels][];
+            var colorMaps = new Color[nPixels + 1][];
 
             var width = nPixels * 2;
             var height = nPixels * 2;
 
             for (var iRow = 0; iRow < colorMaps.Length; iRow++)
             {
-                var colorMap = new Color[width * height];
-                for (var i = 0; i < height; i++)
+                var colorMap = new Color[(nPixels * 2) * (nPixels * 2)];
+                for (var i = -nPixels; i < nPixels; i++)
+                for (var j = -nPixels; j < nPixels; j++)
                 {
-                    for (var j = 0; j < width; j++)
-                    {
-                        var row = Mathf.Max(Mathf.Abs(i - nPixels), Mathf.Abs(j - nPixels));
-                        if (row <= iRow)
-                            colorMap[i * height + j] = Random.value > (Coherence + 1) / 2 ? _orange : _blue;
-                        else
-                            colorMap[i * height + j] = Color.white;
-                    }
+                    var row = Mathf.Max(Mathf.Abs(i), Mathf.Abs(j)); // distance from the center
+                    var loc = (i + nPixels) * (nPixels * 2) + (j + nPixels);
+                    if (row <= iRow)
+                        colorMap[loc] = Random.value > (Coherence + 1) / 2 ? _orange : _blue;
+                    else
+                        colorMap[loc] = Color.white;
                 }
 
                 colorMaps[iRow] = colorMap;
