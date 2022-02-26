@@ -20,13 +20,13 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 
         [SerializeField] int nPixelsHalf = 64;
 
-        [Tooltip("The number of pixel rows revealed per second")]
-        [SerializeField] int speed = 30;
-        
+        [Tooltip("The number of pixel rows revealed per second")] [SerializeField]
+        int speed = 30;
+
         readonly Color32 _blue = new Color32(0, 0, 255, 255);
         readonly Color32 _orange = new Color32(255, 128, 0, 255);
-        
-        
+
+
         [SerializeField] Image image;
 
         Texture2D _texture2D;
@@ -35,7 +35,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 
         void Start()
         {
-            _texture2D = new Texture2D(nPixelsHalf*2, nPixelsHalf*2);
+            _texture2D = new Texture2D(nPixelsHalf * 2, nPixelsHalf * 2);
         }
 
         public void GenerateSample()
@@ -44,21 +44,22 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             _trialSampleRows = CreateTrialRows(nPixelsHalf);
             StartCoroutine(DrawSquareRows(speed, nPixelsHalf));
         }
-        
+
         // Update the task with the `speed` rows per second
         IEnumerator DrawSquareRows(int rowPerSecond, int nPixels)
         {
             var t = Time.time;
             var cm = Enumerable.Repeat(Color.white, (nPixels * 2) * (nPixels * 2)).ToArray();
-            for (var i = 0; i < nPixels + 1; i ++)
+            for (var i = 0; i < nPixels + 1; i++)
             {
                 cm = cm.Select((val, inx) => _trialSampleRows[inx] == i ? _trialSample[inx] : val).ToArray();
                 ApplyTexture(cm, _texture2D);
                 yield return new WaitForSeconds(1f / rowPerSecond);
             }
+
             Debug.Log(Time.time - t);
         }
-        
+
         List<Color> CreateTrial(int nPixels)
         {
             var colors = new List<Color>();
@@ -96,18 +97,17 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             texture.Apply();
 
             //Add the texture to the material
-            image.overrideSprite = Sprite.Create(texture, 
-                new Rect(0, 0, texture.width, texture.height), 
+            image.overrideSprite = Sprite.Create(texture,
+                new Rect(0, 0, texture.width, texture.height),
                 new Vector2(0.5f, 0.5f));
         }
 
         void Update()
         {
-            if(Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.C))
             {
                 GenerateSample();
             }
         }
-        
     }
 }
