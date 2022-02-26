@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using SocialDecisionAgent.Runtime.Task.ColorMatching;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 {
@@ -32,6 +30,8 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         [SerializeField] Image image;
 
         Texture2D _texture2D;
+        List<Color> _trialSample;
+        int[] _trialSampleRows;
 
         void Start()
         {
@@ -40,47 +40,48 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 
         public void GenerateSample()
         {
-            StartCoroutine(DrawSquareRows(speed));
+            _trialSample = CreateTrial(nPixelsHalf);
+            _trialSampleRows = CreateTrialRows(nPixelsHalf);
+            StartCoroutine(DrawSquareRows(speed, nPixelsHalf));
         }
         
         // Update the task with the `speed` rows per second
-        IEnumerator DrawSquareRows(int rowPerSecond)
+        IEnumerator DrawSquareRows(int rowPerSecond, int nPixels)
         {
-            var colorMaps = CreateColorMaps(nPixelsHalf);
             var t = Time.time;
-            foreach (var cm in colorMaps)
+            var cm = Enumerable.Repeat(Color.white, (nPixels * 2) * (nPixels * 2)).ToArray();
+            for (var i = 0; i < nPixels + 1; i ++)
             {
+                cm = cm.Select((val, inx) => _trialSampleRows[inx] == i ? _trialSample[inx] : val).ToArray();
                 ApplyTexture(cm, _texture2D);
                 yield return new WaitForSeconds(1f / rowPerSecond);
             }
             Debug.Log(Time.time - t);
         }
-
-        IEnumerable<Color[]> CreateColorMaps(int nPixels)
+        
+        List<Color> CreateTrial(int nPixels)
         {
-            var colorMaps = new Color[nPixels + 1][];
-
-            var width = nPixels * 2;
-            var height = nPixels * 2;
-
-            for (var iRow = 0; iRow < colorMaps.Length; iRow++)
+            var colors = new List<Color>();
+            for (var i = 0; i < (nPixels * 2) * (nPixels * 2); i++)
             {
-                var colorMap = new Color[(nPixels * 2) * (nPixels * 2)];
-                for (var i = -nPixels; i < nPixels; i++)
-                for (var j = -nPixels; j < nPixels; j++)
-                {
-                    var row = Mathf.Max(Mathf.Abs(i), Mathf.Abs(j)); // distance from the center
-                    var loc = (i + nPixels) * (nPixels * 2) + (j + nPixels);
-                    if (row <= iRow)
-                        colorMap[loc] = Random.value > (Coherence + 1) / 2 ? _orange : _blue;
-                    else
-                        colorMap[loc] = Color.white;
-                }
-
-                colorMaps[iRow] = colorMap;
+                colors.Add(Random.value > (Coherence + 1) / 2 ? _orange : _blue);
             }
 
-            return colorMaps;
+            return colors;
+        }
+
+        int[] CreateTrialRows(int nPixels)
+        {
+            var indices = new int[(nPixels * 2) * (nPixels * 2)];
+            for (var i = -nPixels; i < nPixels; i++)
+            for (var j = -nPixels; j < nPixels; j++)
+            {
+                var row = Mathf.Max(Mathf.Abs(i), Mathf.Abs(j)); // distance from the center
+                var loc = (i + nPixels) * (nPixels * 2) + (j + nPixels);
+                indices[loc] = row;
+            }
+
+            return indices;
         }
 
         void ApplyTexture(Color[] colorMap, Texture2D texture)
