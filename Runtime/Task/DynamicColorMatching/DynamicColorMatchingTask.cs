@@ -20,8 +20,8 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 
         [SerializeField] int nPixelsHalf = 64;
 
-        [Tooltip("The number of pixel rows revealed per second")] [SerializeField]
-        int speed = 30;
+        [Tooltip("Time to show all rows")] [SerializeField]
+        float doneInSeconds = 2f;
 
         readonly Color32 _blue = new Color32(0, 0, 255, 255);
         readonly Color32 _orange = new Color32(255, 128, 0, 255);
@@ -32,59 +32,71 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         Texture2D _texture2D;
         List<Color> _trialSample;
         int[] _trialSampleRows;
+        int _nPixelsSquare;
 
         void Start()
         {
             _texture2D = new Texture2D(nPixelsHalf * 2, nPixelsHalf * 2);
+            _nPixelsSquare = nPixelsHalf * 2 * nPixelsHalf * 2;
         }
 
         public void GenerateSample()
         {
-            _trialSample = CreateTrial(nPixelsHalf);
-            _trialSampleRows = CreateTrialRows(nPixelsHalf);
-            StartCoroutine(DrawSquareRows(speed, nPixelsHalf));
+            _trialSample = CreateTrial();
+            _trialSampleRows = CreateTrialRows();
+            StartCoroutine(DrawSquareRows());
         }
 
         // Update the task with the `speed` rows per second
-        IEnumerator DrawSquareRows(int rowPerSecond, int nPixels)
+        // Note the it is slower for smaller FPS
+        IEnumerator DrawSquareRows()
         {
-            var t = Time.time;
-            var cm = Enumerable.Repeat(Color.white, (nPixels * 2) * (nPixels * 2)).ToArray();
-            for (var i = 0; i < nPixels + 1; i++)
+            //var startTime = Time.time;
+            var cm = Enumerable.Repeat(Color.white, _nPixelsSquare).ToArray();
+            var waitTime = doneInSeconds / nPixelsHalf;
+            var nRowsOneStep = 1;
+
+            // Adjust speed to frame rate
+            while (waitTime <= Time.deltaTime * 1.5f)
             {
-                cm = cm.Select((val, inx) => _trialSampleRows[inx] == i ? _trialSample[inx] : val).ToArray();
-                ApplyTexture(cm, _texture2D);
-                yield return new WaitForSeconds(1f / rowPerSecond);
+                nRowsOneStep++;
+                waitTime *= 2;
             }
 
-            Debug.Log(Time.time - t);
+            for (var i = 0; i <= nPixelsHalf; i += nRowsOneStep)
+            {
+                cm = cm.Select((val, inx) => _trialSampleRows[inx] <= i ? _trialSample[inx] : val).ToArray();
+                ApplyTexture(cm, _texture2D);
+                yield return new WaitForSeconds(waitTime);
+            }
+            //Debug.Log("Done in " + (Time.time - startTime) + " seconds");
         }
 
-        List<Color> CreateTrial(int nPixels)
+        // Fill the texture based on the coherence value
+        List<Color> CreateTrial()
         {
             var colors = new List<Color>();
-            for (var i = 0; i < (nPixels * 2) * (nPixels * 2); i++)
-            {
+            for (var i = 0; i < _nPixelsSquare; i++)
                 colors.Add(Random.value > (Coherence + 1) / 2 ? _orange : _blue);
-            }
-
             return colors;
         }
 
-        int[] CreateTrialRows(int nPixels)
+        // Create an array of rows stored in the flatten format to make a dynamic color matching task
+        int[] CreateTrialRows()
         {
-            var indices = new int[(nPixels * 2) * (nPixels * 2)];
-            for (var i = -nPixels; i < nPixels; i++)
-            for (var j = -nPixels; j < nPixels; j++)
+            var indices = new int[_nPixelsSquare];
+            for (var i = -nPixelsHalf; i < nPixelsHalf; i++)
+            for (var j = -nPixelsHalf; j < nPixelsHalf; j++)
             {
                 var row = Mathf.Max(Mathf.Abs(i), Mathf.Abs(j)); // distance from the center
-                var loc = (i + nPixels) * (nPixels * 2) + (j + nPixels);
+                var loc = (i + nPixelsHalf) * (nPixelsHalf * 2) + j + nPixelsHalf;
                 indices[loc] = row;
             }
 
             return indices;
         }
 
+        // Apply the texture to the image
         void ApplyTexture(Color[] colorMap, Texture2D texture)
         {
             texture.SetPixels(colorMap);
@@ -96,18 +108,10 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 
             texture.Apply();
 
-            //Add the texture to the material
+            //Add the texture as a sprite
             image.overrideSprite = Sprite.Create(texture,
                 new Rect(0, 0, texture.width, texture.height),
                 new Vector2(0.5f, 0.5f));
-        }
-
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                GenerateSample();
-            }
         }
     }
 }
