@@ -18,6 +18,8 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         // -1 = orange, 1 = blue
         public float Coherence { get; set; } = 0f;
 
+        public bool ResetAfterFinish { get; set; } = true;
+
         [SerializeField] int nPixelsHalf = 64;
 
         [Tooltip("Time to show all rows")] [SerializeField]
@@ -46,7 +48,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             _trialSampleRows = CreateTrialRows();
             StartCoroutine(DrawSquareRows());
         }
-
+        
         // Update the task with the `speed` rows per second
         // Note the it is slower for smaller FPS
         IEnumerator DrawSquareRows()
@@ -69,7 +71,19 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
                 ApplyTexture(cm, _texture2D);
                 yield return new WaitForSeconds(waitTime);
             }
+
+            if (!ResetAfterFinish) yield break;
+            
+            yield return new WaitForSeconds(0.1f);
+            ResetSample();
+
             //Debug.Log("Done in " + (Time.time - startTime) + " seconds");
+        }
+        
+        public void ResetSample()
+        {
+            var cm = Enumerable.Repeat(Color.white, _nPixelsSquare).ToArray();
+            ApplyTexture(cm, _texture2D);
         }
 
         // Fill the texture based on the coherence value
