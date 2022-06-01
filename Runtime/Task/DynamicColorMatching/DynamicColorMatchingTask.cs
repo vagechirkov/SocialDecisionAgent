@@ -90,9 +90,9 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             var cm = Enumerable.Repeat(Color.white, _nPixelsSquare).ToArray();
 
             var additionalWaiting = _nSparedFixedUpdates;
-            var nExtraFixedUpdatePerRow = _nFixedDeltaTimesPerRow;
             for (var i = 0; i <= nPixelsHalf; i += NumberOfRowsPerDeltaTime)
             {
+                int nExtraFixedUpdatePerRow;
                 if (additionalWaiting > 0)
                 {
                     nExtraFixedUpdatePerRow = _nFixedDeltaTimesPerRow + 1;
