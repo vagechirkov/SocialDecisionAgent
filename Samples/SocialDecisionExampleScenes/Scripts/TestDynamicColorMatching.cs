@@ -27,14 +27,13 @@ public class TestDynamicColorMatching : MonoBehaviour
 
     IEnumerator Info()
     {
-        var startTime = Time.time;
         while (Task.IsRunning)
         {
             yield return new WaitForSeconds(0.1f);
             
             // Percentage shown
             Debug.Log($"Percentage of the task shown: {(int)(Task.PercentageShown * 100)}%; " +
-                      $"Time passed {Time.time - startTime}s");
+                      $"Time passed {Task.TimePassed}s");
         }
 
         Debug.Log($"The task is finished in: {Task.FinishedInSeconds}s");

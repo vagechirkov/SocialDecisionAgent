@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 {
@@ -28,6 +30,11 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 
         // Percentage of the task revealed
         public float PercentageShown { get; set; }
+        
+        // Time passed since the beginning
+        public float TimePassed { get; set; }
+
+        public int NumberOfRowsPerDeltaTime = 1;
 
         [SerializeField] int nPixelsHalf = 64;
 
@@ -44,11 +51,25 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         List<Color> _trialSample;
         int[] _trialSampleRows;
         int _nPixelsSquare;
+        // The number of FixedDeltaTimes in one task
+        float _nFixedDeltaTimes;
+        float _nRowsPerFixedDeltaTimes;
+        int _nFixedDeltaTimesPerRow;
+        // The number of fixed updated to add throughout the task presentation
+        int _nSparedFixedUpdates;
 
         void Start()
         {
             _texture2D = new Texture2D(nPixelsHalf * 2, nPixelsHalf * 2);
             _nPixelsSquare = nPixelsHalf * 2 * nPixelsHalf * 2;
+            
+            _nFixedDeltaTimes = doneInSeconds / Time.fixedDeltaTime;
+            _nRowsPerFixedDeltaTimes = nPixelsHalf / _nFixedDeltaTimes;
+            // (int)Math.Ceiling(1 / _nRowsPerFixedDeltaTimes);
+            _nFixedDeltaTimesPerRow = (int)(1 / _nRowsPerFixedDeltaTimes); 
+            _nFixedDeltaTimesPerRow = _nFixedDeltaTimesPerRow < 1 ? 1 : _nFixedDeltaTimesPerRow;
+
+            _nSparedFixedUpdates = (int)_nFixedDeltaTimes - _nFixedDeltaTimesPerRow * nPixelsHalf;
         }
 
         public void GenerateSample()
@@ -65,24 +86,38 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             IsRunning = true;
             var startTime = Time.time;
             var cm = Enumerable.Repeat(Color.white, _nPixelsSquare).ToArray();
-            var waitTime = doneInSeconds / nPixelsHalf;
-            var nRowsOneStep = 1;
 
-            // Adjust speed to frame rate
-            while (waitTime <= Time.deltaTime * 1.5f)
+            var additionalWaiting = _nSparedFixedUpdates;
+            var nExtraFixedUpdatePerRow = _nFixedDeltaTimesPerRow;
+            for (var i = 0; i <= nPixelsHalf; i += NumberOfRowsPerDeltaTime)
             {
-                nRowsOneStep++;
-                waitTime *= 2;
-            }
+                if (additionalWaiting > 0)
+                {
+                    nExtraFixedUpdatePerRow = _nFixedDeltaTimesPerRow + 1;
+                    additionalWaiting--;
+                }
+                else
+                {
+                    nExtraFixedUpdatePerRow = _nFixedDeltaTimesPerRow;
+                }
+                
+                for (var j = 0; j < nExtraFixedUpdatePerRow; j++)
+                {
+                    if (j!= nExtraFixedUpdatePerRow - 1)
+                    {
+                        yield return new WaitForFixedUpdate();
+                        continue;
+                    }
+                    
+                    cm = cm.Select((val, inx) => _trialSampleRows[inx] <= i ? _trialSample[inx] : val).ToArray();
+                    ApplyTexture(cm, _texture2D);
+                    
+                    PercentageShown = (float) (2 * i) * (2 * i) / (2 * 2 * nPixelsHalf * nPixelsHalf) ;
+                    TimePassed = Time.time - startTime;
 
-            for (var i = 0; i <= nPixelsHalf; i += nRowsOneStep)
-            {
-                cm = cm.Select((val, inx) => _trialSampleRows[inx] <= i ? _trialSample[inx] : val).ToArray();
-                ApplyTexture(cm, _texture2D);
-                
-                PercentageShown = (float) (2 * i) * (2 * i) / (2 * 2 * nPixelsHalf * nPixelsHalf) ;
-                
-                yield return new WaitForSeconds(waitTime);
+
+                    yield return new WaitForFixedUpdate();
+                }
             }
             
             FinishedInSeconds = Time.time - startTime;
