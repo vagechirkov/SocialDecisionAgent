@@ -19,6 +19,15 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         public float Coherence { get; set; } = 0f;
 
         public bool ResetAfterFinish { get; set; } = true;
+        
+        // Time that was taken to finish the whole task
+        public float FinishedInSeconds { get; set; }
+        
+        // Is the task running?
+        public bool IsRunning { get; set; }
+
+        // Percentage of the task revealed
+        public float PercentageShown { get; set; }
 
         [SerializeField] int nPixelsHalf = 64;
 
@@ -53,7 +62,8 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         // Note the it is slower for smaller FPS
         IEnumerator DrawSquareRows()
         {
-            //var startTime = Time.time;
+            IsRunning = true;
+            var startTime = Time.time;
             var cm = Enumerable.Repeat(Color.white, _nPixelsSquare).ToArray();
             var waitTime = doneInSeconds / nPixelsHalf;
             var nRowsOneStep = 1;
@@ -69,15 +79,21 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             {
                 cm = cm.Select((val, inx) => _trialSampleRows[inx] <= i ? _trialSample[inx] : val).ToArray();
                 ApplyTexture(cm, _texture2D);
+                
+                PercentageShown = (float) (2 * i) * (2 * i) / (2 * 2 * nPixelsHalf * nPixelsHalf) ;
+                
                 yield return new WaitForSeconds(waitTime);
             }
-
+            
+            FinishedInSeconds = Time.time - startTime;
+            IsRunning = false;
+            
             if (!ResetAfterFinish) yield break;
             
             yield return new WaitForSeconds(0.1f);
             ResetSample();
 
-            //Debug.Log("Done in " + (Time.time - startTime) + " seconds");
+
         }
         
         public void ResetSample()
