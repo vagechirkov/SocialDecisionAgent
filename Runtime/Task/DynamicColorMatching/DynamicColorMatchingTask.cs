@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 {
@@ -21,16 +19,16 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         public float Coherence { get; set; } = 0f;
 
         public bool ResetAfterFinish { get; set; } = true;
-        
+
         // Time that was taken to finish the whole task
         public float FinishedInSeconds { get; set; }
-        
+
         // Is the task running?
         public bool IsRunning { get; set; }
 
         // Percentage of the task revealed
         public float PercentageShown { get; set; }
-        
+
         // Time passed since the beginning
         public float TimePassed { get; set; }
 
@@ -50,11 +48,15 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         Texture2D _texture2D;
         List<Color> _trialSample;
         int[] _trialSampleRows;
+
         int _nPixelsSquare;
+
         // The number of FixedDeltaTimes in one task
         float _nFixedDeltaTimes;
         float _nRowsPerFixedDeltaTimes;
+
         int _nFixedDeltaTimesPerRow;
+
         // The number of fixed updated to add throughout the task presentation
         int _nSparedFixedUpdates;
 
@@ -62,14 +64,14 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         {
             _texture2D = new Texture2D(nPixelsHalf * 2, nPixelsHalf * 2);
             _nPixelsSquare = nPixelsHalf * 2 * nPixelsHalf * 2;
-            
+
             _nFixedDeltaTimes = doneInSeconds / Time.fixedDeltaTime;
             _nRowsPerFixedDeltaTimes = nPixelsHalf / _nFixedDeltaTimes;
             // (int)Math.Ceiling(1 / _nRowsPerFixedDeltaTimes);
-            _nFixedDeltaTimesPerRow = (int)(1 / _nRowsPerFixedDeltaTimes); 
+            _nFixedDeltaTimesPerRow = (int) (1 / _nRowsPerFixedDeltaTimes);
             _nFixedDeltaTimesPerRow = _nFixedDeltaTimesPerRow < 1 ? 1 : _nFixedDeltaTimesPerRow;
 
-            _nSparedFixedUpdates = (int)_nFixedDeltaTimes - _nFixedDeltaTimesPerRow * nPixelsHalf;
+            _nSparedFixedUpdates = (int) _nFixedDeltaTimes - _nFixedDeltaTimesPerRow * nPixelsHalf;
         }
 
         public void GenerateSample()
@@ -78,7 +80,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             _trialSampleRows = CreateTrialRows();
             StartCoroutine(DrawSquareRows());
         }
-        
+
         // Update the task with the `speed` rows per second
         // Note the it is slower for smaller FPS
         IEnumerator DrawSquareRows()
@@ -100,37 +102,35 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
                 {
                     nExtraFixedUpdatePerRow = _nFixedDeltaTimesPerRow;
                 }
-                
+
                 for (var j = 0; j < nExtraFixedUpdatePerRow; j++)
                 {
-                    if (j!= nExtraFixedUpdatePerRow - 1)
+                    if (j != nExtraFixedUpdatePerRow - 1)
                     {
                         yield return new WaitForFixedUpdate();
                         continue;
                     }
-                    
+
                     cm = cm.Select((val, inx) => _trialSampleRows[inx] <= i ? _trialSample[inx] : val).ToArray();
                     ApplyTexture(cm, _texture2D);
-                    
-                    PercentageShown = (float) (2 * i) * (2 * i) / (2 * 2 * nPixelsHalf * nPixelsHalf) ;
+
+                    PercentageShown = (float) (2 * i) * (2 * i) / (2 * 2 * nPixelsHalf * nPixelsHalf);
                     TimePassed = Time.time - startTime;
 
 
                     yield return new WaitForFixedUpdate();
                 }
             }
-            
+
             FinishedInSeconds = Time.time - startTime;
             IsRunning = false;
-            
+
             if (!ResetAfterFinish) yield break;
-            
+
             yield return new WaitForSeconds(0.1f);
             ResetSample();
-
-
         }
-        
+
         public void ResetSample()
         {
             var cm = Enumerable.Repeat(Color.white, _nPixelsSquare).ToArray();
@@ -154,7 +154,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             for (var j = -nPixelsHalf; j < nPixelsHalf; j++)
             {
                 var row = Mathf.Max(Mathf.Abs(i), Mathf.Abs(j)); // distance from the center
-                var loc = (i + nPixelsHalf) * (nPixelsHalf * 2) + j + nPixelsHalf;
+                var loc = (i + nPixelsHalf) * nPixelsHalf * 2 + j + nPixelsHalf;
                 indices[loc] = row;
             }
 
