@@ -19,6 +19,16 @@ public class TestDynamicColorMatching : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            var v = Random.value;
+            if (v < 0.25f)
+            {
+                Task.Coherence = -0.25f;
+            }
+            else if (v > 0.75f)
+            {
+                Task.Coherence = 0.25f;
+            }
+            
             Task.GenerateSample();
             StartCoroutine(Info());
         }

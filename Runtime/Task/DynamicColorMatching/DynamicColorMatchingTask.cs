@@ -83,7 +83,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             _cmBlueFull = Enumerable.Repeat(_blue, _nPixelsSquare).ToArray();
 
             // This can be useful when Coherence is 0
-            _cmOrangeHalf = Enumerable.Repeat(_orange, _nPixelsSquare).ToArray();
+            _cmOrangeHalf = Enumerable.Repeat(_orange, _nPixelsSquare / 2).ToArray();
         }
 
         public void GenerateSample()
@@ -150,19 +150,20 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         Color[] CreateTrial()
         {
             // colors array is filled with blue colors
-            var colors = _cmBlueFull;
+            var colors = new Color[_cmBlueFull.Length];
+            _cmBlueFull.CopyTo(colors, 0);
 
             // Add the orange colors depending on the coherence value
             if (Coherence == 0)
             {
-                _cmOrangeHalf.CopyTo(colors, 0);
+                _cmOrangeHalf.CopyTo(colors, _cmOrangeHalf.Length);
             }
             else
             {
                 // negative coherence is orange, positive is blue
                 // Example: Coherence = -0.5 (orange) and _nPixelsSquare = 16384
-                // nOrange = 0.25 * 16384 = 4096
-                var nOrange = (int) ((Coherence + 1) / 2 * _nPixelsSquare);
+                // nOrange = 16384 - 0.25 * 16384 = 12288
+                var nOrange = (int) (_nPixelsSquare - (Coherence + 1) / 2 * _nPixelsSquare);
                 // Loop here is inevitable
                 for (var i = 0; i < nOrange; i++) colors[i] = _orange;
             }
