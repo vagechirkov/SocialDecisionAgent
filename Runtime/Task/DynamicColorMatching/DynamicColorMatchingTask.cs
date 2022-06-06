@@ -59,6 +59,8 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 
         // The number of fixed updated to add throughout the task presentation
         int _nSparedFixedUpdates;
+        
+        Color[] _cmWhite;
 
         void Start()
         {
@@ -76,12 +78,14 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             // Create an array of rows stored in the flatten format to make a dynamic color matching task
             // can be done once per experiment
             _trialSampleRows = CreateTrialRows();
+            
+            // Create the white color array
+            _cmWhite = Enumerable.Repeat(Color.white, _nPixelsSquare).ToArray();
         }
 
         public void GenerateSample()
         {
             _trialSample = CreateTrial();
-            
             StartCoroutine(DrawSquareRows());
         }
 
@@ -91,7 +95,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         {
             IsRunning = true;
             var startTime = Time.time;
-            var cm = Enumerable.Repeat(Color.white, _nPixelsSquare).ToArray();
+            var cm = _cmWhite;
 
             var additionalWaiting = _nSparedFixedUpdates;
             for (var i = 0; i <= nPixelsHalf; i += NumberOfRowsPerDeltaTime)
