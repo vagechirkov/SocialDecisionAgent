@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 {
@@ -98,7 +100,9 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         {
             IsRunning = true;
             var startTime = Time.time;
-            var cm = _cmWhite;
+            // Create a white array
+            var cm = new Color[_cmWhite.Length];
+            _cmWhite.CopyTo(cm, 0);
 
             var additionalWaiting = _nSparedFixedUpdates;
             for (var i = 0; i <= nPixelsHalf; i += NumberOfRowsPerDeltaTime)
@@ -122,7 +126,10 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
                         continue;
                     }
 
-                    cm = cm.Select((val, inx) => _trialSampleRows[inx] <= i ? _trialSample[inx] : val).ToArray();
+                    // Copy one row from the _trialSample array to the array cm (white)
+                    for (var inx = 0; inx < _trialSampleRows.Length; inx++) 
+                        if (_trialSampleRows[inx] <= i) cm[inx] = _trialSample[inx];
+                    
                     ApplyTexture(cm, _texture2D);
 
                     PercentageShown = (float) (2 * i) * (2 * i) / (2 * 2 * nPixelsHalf * nPixelsHalf);
@@ -168,6 +175,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
                 for (var i = 0; i < nOrange; i++) colors[i] = _orange;
             }
 
+            // NOTE: Expensive operation
             Randomize(colors);
             return colors;
         }
