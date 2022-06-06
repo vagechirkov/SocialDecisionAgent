@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 {
@@ -39,14 +40,12 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         [Tooltip("Time to show all rows")] [SerializeField]
         float doneInSeconds = 2f;
 
-        readonly Color32 _blue = new Color32(0, 0, 255, 255);
-        readonly Color32 _orange = new Color32(255, 128, 0, 255);
-
+        readonly Color _blue = new Color32(0, 0, 255, 255);
+        readonly Color _orange = new Color32(255, 128, 0, 255);
 
         [SerializeField] Image image;
 
         Texture2D _texture2D;
-        List<Color> _trialSample;
         int[] _trialSampleRows;
 
         int _nPixelsSquare;
@@ -60,6 +59,8 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         // The number of fixed updated to add throughout the task presentation
         int _nSparedFixedUpdates;
 
+        Color[] _cmWhite, _cmBlueFull, _cmOrangeHalf, _trialSample;
+
         void Start()
         {
             _texture2D = new Texture2D(nPixelsHalf * 2, nPixelsHalf * 2);
@@ -72,12 +73,24 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             _nFixedDeltaTimesPerRow = _nFixedDeltaTimesPerRow < 1 ? 1 : _nFixedDeltaTimesPerRow;
 
             _nSparedFixedUpdates = (int) _nFixedDeltaTimes - _nFixedDeltaTimesPerRow * nPixelsHalf;
+
+            // Create an array of rows stored in the flatten format to make a dynamic color matching task
+            // can be done once per experiment
+            _trialSampleRows = CreateTrialRows();
+
+            // Create the white color array
+            _cmWhite = Enumerable.Repeat(Color.white, _nPixelsSquare).ToArray();
+
+            // Create blue color array
+            _cmBlueFull = Enumerable.Repeat(_blue, _nPixelsSquare).ToArray();
+
+            // This can be useful when Coherence is 0
+            _cmOrangeHalf = Enumerable.Repeat(_orange, _nPixelsSquare / 2).ToArray();
         }
 
         public void GenerateSample()
         {
             _trialSample = CreateTrial();
-            _trialSampleRows = CreateTrialRows();
             StartCoroutine(DrawSquareRows());
         }
 
@@ -87,7 +100,9 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         {
             IsRunning = true;
             var startTime = Time.time;
-            var cm = Enumerable.Repeat(Color.white, _nPixelsSquare).ToArray();
+            // Create a white array
+            var cm = new Color[_cmWhite.Length];
+            _cmWhite.CopyTo(cm, 0);
 
             var additionalWaiting = _nSparedFixedUpdates;
             for (var i = 0; i <= nPixelsHalf; i += NumberOfRowsPerDeltaTime)
@@ -111,12 +126,14 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
                         continue;
                     }
 
-                    cm = cm.Select((val, inx) => _trialSampleRows[inx] <= i ? _trialSample[inx] : val).ToArray();
+                    // Copy one row from the _trialSample array to the array cm (white)
+                    for (var inx = 0; inx < _trialSampleRows.Length; inx++) 
+                        if (_trialSampleRows[inx] <= i) cm[inx] = _trialSample[inx];
+                    
                     ApplyTexture(cm, _texture2D);
 
                     PercentageShown = (float) (2 * i) * (2 * i) / (2 * 2 * nPixelsHalf * nPixelsHalf);
                     TimePassed = Time.time - startTime;
-
 
                     yield return new WaitForFixedUpdate();
                 }
@@ -133,16 +150,33 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 
         public void ResetSample()
         {
-            var cm = Enumerable.Repeat(Color.white, _nPixelsSquare).ToArray();
-            ApplyTexture(cm, _texture2D);
+            ApplyTexture(_cmWhite, _texture2D);
         }
 
         // Fill the texture based on the coherence value
-        List<Color> CreateTrial()
+        Color[] CreateTrial()
         {
-            var colors = new List<Color>();
-            for (var i = 0; i < _nPixelsSquare; i++)
-                colors.Add(Random.value > (Coherence + 1) / 2 ? _orange : _blue);
+            // colors array is filled with blue colors
+            var colors = new Color[_cmBlueFull.Length];
+            _cmBlueFull.CopyTo(colors, 0);
+
+            // Add the orange colors depending on the coherence value
+            if (Coherence == 0)
+            {
+                _cmOrangeHalf.CopyTo(colors, _cmOrangeHalf.Length);
+            }
+            else
+            {
+                // negative coherence is orange, positive is blue
+                // Example: Coherence = -0.5 (orange) and _nPixelsSquare = 16384
+                // nOrange = 16384 - 0.25 * 16384 = 12288
+                var nOrange = (int) (_nPixelsSquare - (Coherence + 1) / 2 * _nPixelsSquare);
+                // Loop here is inevitable
+                for (var i = 0; i < nOrange; i++) colors[i] = _orange;
+            }
+
+            // NOTE: Expensive operation
+            Randomize(colors);
             return colors;
         }
 
@@ -174,9 +208,20 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             texture.Apply();
 
             //Add the texture as a sprite
-            image.overrideSprite = Sprite.Create(texture,
-                new Rect(0, 0, texture.width, texture.height),
+            image.overrideSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
                 new Vector2(0.5f, 0.5f));
+        }
+        
+        // Randomize order of elements in array
+        static void Randomize<T>(T[] items)
+        {
+            // For each spot in the array, pick
+            // a random item to swap into that spot.
+            for (var i = 0; i < items.Length - 1; i++)
+            {
+                var j = Random.Range(i, items.Length);
+                (items[i], items[j]) = (items[j], items[i]);
+            }
         }
     }
 }
