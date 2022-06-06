@@ -72,12 +72,16 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             _nFixedDeltaTimesPerRow = _nFixedDeltaTimesPerRow < 1 ? 1 : _nFixedDeltaTimesPerRow;
 
             _nSparedFixedUpdates = (int) _nFixedDeltaTimes - _nFixedDeltaTimesPerRow * nPixelsHalf;
+            
+            // Create an array of rows stored in the flatten format to make a dynamic color matching task
+            // can be done once per experiment
+            _trialSampleRows = CreateTrialRows();
         }
 
         public void GenerateSample()
         {
             _trialSample = CreateTrial();
-            _trialSampleRows = CreateTrialRows();
+            
             StartCoroutine(DrawSquareRows());
         }
 
