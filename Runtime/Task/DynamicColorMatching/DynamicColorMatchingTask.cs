@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -58,7 +56,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 
         // The number of fixed updated to add throughout the task presentation
         int _nSparedFixedUpdates;
-        
+
         Color[] _cmWhite, _cmBlueFull, _cmOrangeHalf, _trialSample;
 
         void Start()
@@ -77,16 +75,15 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             // Create an array of rows stored in the flatten format to make a dynamic color matching task
             // can be done once per experiment
             _trialSampleRows = CreateTrialRows();
-            
+
             // Create the white color array
             _cmWhite = Enumerable.Repeat(Color.white, _nPixelsSquare).ToArray();
-            
+
             // Create blue color array
             _cmBlueFull = Enumerable.Repeat(_blue, _nPixelsSquare).ToArray();
 
             // This can be useful when Coherence is 0
             _cmOrangeHalf = Enumerable.Repeat(_orange, _nPixelsSquare).ToArray();
-            
         }
 
         public void GenerateSample()
@@ -154,7 +151,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         {
             // colors array is filled with blue colors
             var colors = _cmBlueFull;
-            
+
             // Add the orange colors depending on the coherence value
             if (Coherence == 0)
             {
@@ -169,6 +166,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
                 // Loop here is inevitable
                 for (var i = 0; i < nOrange; i++) colors[i] = _orange;
             }
+
             return colors;
         }
 
