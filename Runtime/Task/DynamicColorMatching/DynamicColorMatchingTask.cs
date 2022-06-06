@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,14 +40,12 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         [Tooltip("Time to show all rows")] [SerializeField]
         float doneInSeconds = 2f;
 
-        readonly Color32 _blue = new Color32(0, 0, 255, 255);
-        readonly Color32 _orange = new Color32(255, 128, 0, 255);
-
+        readonly Color _blue = new Color32(0, 0, 255, 255);
+        readonly Color _orange = new Color32(255, 128, 0, 255);
 
         [SerializeField] Image image;
 
         Texture2D _texture2D;
-        List<Color> _trialSample;
         int[] _trialSampleRows;
 
         int _nPixelsSquare;
@@ -60,7 +59,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         // The number of fixed updated to add throughout the task presentation
         int _nSparedFixedUpdates;
         
-        Color[] _cmWhite;
+        Color[] _cmWhite, _cmBlueFull, _cmOrangeHalf, _trialSample;
 
         void Start()
         {
@@ -74,13 +73,20 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             _nFixedDeltaTimesPerRow = _nFixedDeltaTimesPerRow < 1 ? 1 : _nFixedDeltaTimesPerRow;
 
             _nSparedFixedUpdates = (int) _nFixedDeltaTimes - _nFixedDeltaTimesPerRow * nPixelsHalf;
-            
+
             // Create an array of rows stored in the flatten format to make a dynamic color matching task
             // can be done once per experiment
             _trialSampleRows = CreateTrialRows();
             
             // Create the white color array
             _cmWhite = Enumerable.Repeat(Color.white, _nPixelsSquare).ToArray();
+            
+            // Create blue color array
+            _cmBlueFull = Enumerable.Repeat(_blue, _nPixelsSquare).ToArray();
+
+            // This can be useful when Coherence is 0
+            _cmOrangeHalf = Enumerable.Repeat(_orange, _nPixelsSquare).ToArray();
+            
         }
 
         public void GenerateSample()
@@ -125,7 +131,6 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
                     PercentageShown = (float) (2 * i) * (2 * i) / (2 * 2 * nPixelsHalf * nPixelsHalf);
                     TimePassed = Time.time - startTime;
 
-
                     yield return new WaitForFixedUpdate();
                 }
             }
@@ -145,11 +150,25 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
         }
 
         // Fill the texture based on the coherence value
-        List<Color> CreateTrial()
+        Color[] CreateTrial()
         {
-            var colors = new List<Color>();
-            for (var i = 0; i < _nPixelsSquare; i++)
-                colors.Add(Random.value > (Coherence + 1) / 2 ? _orange : _blue);
+            // colors array is filled with blue colors
+            var colors = _cmBlueFull;
+            
+            // Add the orange colors depending on the coherence value
+            if (Coherence == 0)
+            {
+                _cmOrangeHalf.CopyTo(colors, 0);
+            }
+            else
+            {
+                // negative coherence is orange, positive is blue
+                // Example: Coherence = -0.5 (orange) and _nPixelsSquare = 16384
+                // nOrange = 0.25 * 16384 = 4096
+                var nOrange = (int) ((Coherence + 1) / 2 * _nPixelsSquare);
+                // Loop here is inevitable
+                for (var i = 0; i < nOrange; i++) colors[i] = _orange;
+            }
             return colors;
         }
 
@@ -181,8 +200,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             texture.Apply();
 
             //Add the texture as a sprite
-            image.overrideSprite = Sprite.Create(texture,
-                new Rect(0, 0, texture.width, texture.height),
+            image.overrideSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
                 new Vector2(0.5f, 0.5f));
         }
     }
