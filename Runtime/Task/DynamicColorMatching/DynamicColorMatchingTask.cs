@@ -168,6 +168,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
                 for (var i = 0; i < nOrange; i++) colors[i] = _orange;
             }
 
+            Randomize(colors);
             return colors;
         }
 
@@ -201,6 +202,18 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
             //Add the texture as a sprite
             image.overrideSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
                 new Vector2(0.5f, 0.5f));
+        }
+        
+        // Randomize order of elements in array
+        static void Randomize<T>(T[] items)
+        {
+            // For each spot in the array, pick
+            // a random item to swap into that spot.
+            for (var i = 0; i < items.Length - 1; i++)
+            {
+                var j = Random.Range(i, items.Length);
+                (items[i], items[j]) = (items[j], items[i]);
+            }
         }
     }
 }

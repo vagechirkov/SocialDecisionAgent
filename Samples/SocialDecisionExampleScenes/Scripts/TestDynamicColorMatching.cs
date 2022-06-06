@@ -28,6 +28,10 @@ public class TestDynamicColorMatching : MonoBehaviour
             {
                 Task.Coherence = 0.25f;
             }
+            else
+            {
+                Task.Coherence = 0f;
+            }
             
             Task.GenerateSample();
             StartCoroutine(Info());
