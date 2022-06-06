@@ -141,8 +141,7 @@ namespace SocialDecisionAgent.Runtime.Task.DynamicColorMatching
 
         public void ResetSample()
         {
-            var cm = Enumerable.Repeat(Color.white, _nPixelsSquare).ToArray();
-            ApplyTexture(cm, _texture2D);
+            ApplyTexture(_cmWhite, _texture2D);
         }
 
         // Fill the texture based on the coherence value
